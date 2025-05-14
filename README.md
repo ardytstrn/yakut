@@ -1,7 +1,7 @@
 <div align="center">
-  <h1>yakut</h1>
+  <h1>Yakut</h1>
   <p><strong>A dynamic and modular penetration testing framework and exploit development platform.</strong></p>
-  <p><em>(yakut is the Turkish word for Ruby)</em></p>
+  <p><em>(Yakut is the Turkish word for Ruby)</em></p>
 
   <p>
     <a href="https://opensource.org/licenses/MIT">
