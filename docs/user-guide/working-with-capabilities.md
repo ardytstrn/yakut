@@ -5,7 +5,12 @@ actions, from reconnaissance and exploitation to post-exploitation and utility t
 This guide will detail how to effectively find, understand, configure and run
 Capabilities to achieve your security assessment objectives.
 
-## 1. What are Capabilities?
+- [Working with Capabilities](#working-with-capabilities)
+- [1. What are Capabilities?](#1-what-are-capabilities)
+- [2. Capability Naming \& Discovery Philosophy in Yakut](#2-capability-naming--discovery-philosophy-in-yakut)
+- [1. Understanding Module Types in Yakut](#1-understanding-module-types-in-yakut)
+
+# 1. What are Capabilities?
 
 In Yakut, a capability is an evolution of the traditional "module" concept. It's a
 self-contained piece of Ruby code, managed by the `Yakut::OperationsPlatform`. Each
@@ -15,7 +20,7 @@ capability is defined by:
 - **Rich metadata:** Detailed information about its function, authors, targets, reliability, impact, and operational security (OPSEC) considerations.
 - **Configurable options:** Parameters that allow you to tailor its behavior.
 
-## 2. Capability Naming & Discovery Philosophy in Yakut
+# 2. Capability Naming & Discovery Philosophy in Yakut
 
 Yakut employs a sophisticated approach to capability naming and discovery.
 
@@ -25,7 +30,7 @@ Yakut employs a sophisticated approach to capability naming and discovery.
 
 - **Rich Metadata & Tagging (for Powerful Discovery):** Each capability is accompanied by extensive metadata, including: `title`, `ref_name`, `type`, `tags`, `description`, `reliability_score`, `impact_score`, `opsec_rating`, `cleanup_available`, `privileged`.
 
-## 1. Understanding Module Types in Yakut
+# 1. Understanding Module Types in Yakut
 
 Yakut categorizes its capabilities to reflect the various stages and tasks involved in an
 offensive security engagement. This includes enhancements to traditional capability types

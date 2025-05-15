@@ -1,5 +1,22 @@
 # FAQ & Troubleshooting
 
+- [FAQ \& Troubleshooting](#faq--troubleshooting)
+  - [1. Frequently Asked Questions (FAQ)](#1-frequently-asked-questions-faq)
+      - [1.1. What is Yakut?](#11-what-is-yakut)
+      - [1.2. Why was Yakut created? What makes it different?](#12-why-was-yakut-created-what-makes-it-different)
+      - [1.3. What is the current development status of Yakut?](#13-what-is-the-current-development-status-of-yakut)
+      - [1.4. Is Yakut free and open-source?](#14-is-yakut-free-and-open-source)
+      - [1.5. How does Yakut compare to Metasploit or other frameworks?](#15-how-does-yakut-compare-to-metasploit-or-other-frameworks)
+  - [2. Installation Troubleshooting](#2-installation-troubleshooting)
+      - [2.1. I can't install a specific Ruby version (e.g. 3.4.3)](#21-i-cant-install-a-specific-ruby-version-eg-343)
+      - [2.2. `ruby` command not found, or it runs the system Ruby instead of the rbenv/RVM managed version](#22-ruby-command-not-found-or-it-runs-the-system-ruby-instead-of-the-rbenvrvm-managed-version)
+  - [3. Configuration Troubleshooting](#3-configuration-troubleshooting)
+  - [4. Usage Troubleshooting (CLI \& Modules)](#4-usage-troubleshooting-cli--modules)
+  - [5. Module Development Troubleshooting](#5-module-development-troubleshooting)
+  - [6. Security \& Ethical Use](#6-security--ethical-use)
+      - [6.1. Is it legal to use Yakut?](#61-is-it-legal-to-use-yakut)
+      - [6.2. How can I use Yakut safely for learning?](#62-how-can-i-use-yakut-safely-for-learning)
+
 ## 1. Frequently Asked Questions (FAQ)
 
 ---

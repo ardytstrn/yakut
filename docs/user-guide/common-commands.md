@@ -6,7 +6,46 @@ loot and the framework itself.
 
 _Tip: Remember to utilize the tab completion extensively in the Yakut console. It will help you discover commands, sub-commands, capability paths and known values._
 
-## 1. Workspace Management Commands
+- [Common Commands](#common-commands)
+- [1. Workspace Management Commands](#1-workspace-management-commands)
+    - [`workspace` or `workspace list`](#workspace-or-workspace-list)
+    - [`workspace create <name> [--description "your description"]`](#workspace-create-name---description-your-description)
+    - [`workspace use <name_or_id>`](#workspace-use-name_or_id)
+    - [`workspace info <name_or_id>`](#workspace-info-name_or_id)
+    - [`workspace delete <name_or_id>`](#workspace-delete-name_or_id)
+    - [`workspace scope define [--include <ranges>] [--exclude <ranges>] [--notes "<text>"]`](#workspace-scope-define---include-ranges---exclude-ranges---notes-text)
+    - [`workspace scope show <name_or_id>`](#workspace-scope-show-name_or_id)
+- [2. Target Management Commands](#2-target-management-commands)
+    - [`target add <ip_or_host_or_url> [--os <os>] [--hostname <name>] [--tags "tag1,tag2"] [--notes "<text>"]`](#target-add-ip_or_host_or_url---os-os---hostname-name---tags-tag1tag2---notes-text)
+    - [`target list [--os <os>] [--port <port>] [--service <svc>] [--vuln <cve_id>] [--tags "tag"] [--ip <range>]` or `targets`](#target-list---os-os---port-port---service-svc---vuln-cve_id---tags-tag---ip-range-or-targets)
+    - [`target show <id_or_ip_or_hostname>`](#target-show-id_or_ip_or_hostname)
+    - [`target update <id_or_ip_or_hostname> --os <new_os> --tags "new_tags" --notes "<new_notes>"`](#target-update-id_or_ip_or_hostname---os-new_os---tags-new_tags---notes-new_notes)
+    - [`target delete <id_or_ip_or_hostname>`](#target-delete-id_or_ip_or_hostname)
+    - [`target <id_or_ip_or_hostname> services list|add|update|delete [service_options]`](#target-id_or_ip_or_hostname-services-listaddupdatedelete-service_options)
+    - [`target <id_or_ip_or_hostname> vulns list|add|update|delete [vuln_options]`](#target-id_or_ip_or_hostname-vulns-listaddupdatedelete-vuln_options)
+- [3. Module Interaction Commands](#3-module-interaction-commands)
+    - [`capability search <keyword> [type:<type>] [platform:<platform>] [cve:<id>] [tag:<tag>] [name:<text>]`](#capability-search-keyword-typetype-platformplatform-cveid-tagtag-nametext)
+    - [`capability info <capability_refname>`](#capability-info-capability_refname)
+    - [`capability use <capability_refname>` or `use <capability_refname>`](#capability-use-capability_refname-or-use-capability_refname)
+    - [`capability options` or `options` (within capability context)](#capability-options-or-options-within-capability-context)
+    - [`capability options set <OPTION_NAME> <value>` or `set <OPTION_NAME> <value>` (within capability context)](#capability-options-set-option_name-value-or-set-option_name-value-within-capability-context)
+    - [`capability options payload <payload_refname>` or `set PAYLOAD <payload_refname>` (for exploit capabilities)](#capability-options-payload-payload_refname-or-set-payload-payload_refname-for-exploit-capabilities)
+    - [`payload options` or `poptions` (within capability context, after a payload is set)](#payload-options-or-poptions-within-capability-context-after-a-payload-is-set)
+    - [`payload options set <OPTION_NAME> <value>` or `pset <OPTION_NAME> <value>` (within capability context)](#payload-options-set-option_name-value-or-pset-option_name-value-within-capability-context)
+    - [`capability check` or `check` (within capability context, if capability supports it)](#capability-check-or-check-within-capability-context-if-capability-supports-it)
+    - [`capability run [--async]` or `run [--async]` or `exploit [--async]` (within capability context)](#capability-run---async-or-run---async-or-exploit---async-within-capability-context)
+    - [`back`](#back)
+    - [`capability reload_paths`](#capability-reload_paths)
+- [4. Session Management Commands](#4-session-management-commands)
+    - [`sessions list` or `sessions`](#sessions-list-or-sessions)
+    - [`sessions interact` or `session <session_id>`](#sessions-interact-or-session-session_id)
+    - [Within Session Context - Examples for a `yakut_agent` session:](#within-session-context---examples-for-a-yakut_agent-session)
+    - [`sessions kill <session_id>`](#sessions-kill-session_id)
+- [5. Loot Management Commands](#5-loot-management-commands)
+    - [`loot list [--type <type>] [--service <svc>] [--keyword <text>]` or `loot`](#loot-list---type-type---service-svc---keyword-text-or-loot)
+    - [`loot add <type> --host <host_or_id> [--service <service>] [--user <user>] [--secret "<data>"] [--file <local_file_path>] [--notes "<text>"]`](#loot-add-type---host-host_or_id---service-service---user-user---secret-data---file-local_file_path---notes-text)
+
+# 1. Workspace Management Commands
 
 ### `workspace` or `workspace list`
 
@@ -87,7 +126,7 @@ yakut [ws:Client_Alpha_Pentest] > workspace scope show
 
 ---
 
-## 2. Target Management Commands
+# 2. Target Management Commands
 
 ### `target add <ip_or_host_or_url> [--os <os>] [--hostname <name>] [--tags "tag1,tag2"] [--notes "<text>"]`
 
@@ -154,7 +193,7 @@ yakut [ws:ACME_Corp_Internal] > target DC01 vulns add --name "MS17-010" --cve CV
 
 ---
 
-## 3. Module Interaction Commands
+# 3. Module Interaction Commands
 
 ### `capability search <keyword> [type:<type>] [platform:<platform>] [cve:<id>] [tag:<tag>] [name:<text>]`
 
@@ -298,7 +337,7 @@ yakut > capability reload_paths
 
 ---
 
-## 4. Session Management Commands
+# 4. Session Management Commands
 
 ### `sessions list` or `sessions`
 
@@ -346,7 +385,7 @@ yakut > sessions kill 2
 
 ---
 
-## 5. Loot Management Commands
+# 5. Loot Management Commands
 
 ### `loot list [--type <type>] [--service <svc>] [--keyword <text>]` or `loot`
 

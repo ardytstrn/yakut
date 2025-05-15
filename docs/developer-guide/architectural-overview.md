@@ -5,7 +5,20 @@ and those wishing to contribute to its core. Yakut is designed as a collection o
 interconnected, yet largely independent, components that work together to provide a
 comprehensive penetration testing environment.
 
-## 1. Core Architectural Tenets
+- [Architectural Overview](#architectural-overview)
+- [1. Core Architectural Tenets](#1-core-architectural-tenets)
+- [2. High-Level Component Diagram](#2-high-level-component-diagram)
+- [3. Detailed Component Breakdown](#3-detailed-component-breakdown)
+  - [3.1. `Yakut::Kernel`](#31-yakutkernel)
+  - [3.2. `Yakut::CognitionEngine`](#32-yakutcognitionengine)
+  - [3.3. `Yakut::OperationsPlatform`](#33-yakutoperationsplatform)
+  - [3.4. `Yakut::C2Infrastructure`](#34-yakutc2infrastructure)
+  - [3.5. `Yakut::CampaignOrchestrator`](#35-yakutcampaignorchestrator)
+  - [3.6. `Yakut::InterfaceAdapters`](#36-yakutinterfaceadapters)
+- [4. Data Flow \& Interaction Patterns](#4-data-flow--interaction-patterns)
+  - [4.1. Capability Execution Lifecycle](#41-capability-execution-lifecycle)
+
+# 1. Core Architectural Tenets
 
 - Function-centric microservices-inspired design
 - Intelligence-driven operations
@@ -16,13 +29,13 @@ comprehensive penetration testing environment.
 - API-first principle
 - Asynchronous & event-driven paradigm
 
-## 2. High-Level Component Diagram
+# 2. High-Level Component Diagram
 
 ![Diagram](../component-diagram.png)
 
-## 3. Detailed Component Breakdown
+# 3. Detailed Component Breakdown
 
-### 3.1. `Yakut::Kernel`
+## 3.1. `Yakut::Kernel`
 
 The Kernel is the immutable core. It provides the fundational runtime and system-level services. It does not contain business logic related to penetration testing itself but enables all other components.
 
@@ -34,7 +47,7 @@ The Kernel is the immutable core. It provides the fundational runtime and system
 - `InternalAPIGateway`: Acts as a unified, versioned Facade for all core framework services. This is the _sole entry point_ for `InterfaceAdapters` and for structured inter-component API calls. It exposes well-defined Ruby methods. Handles request routing to the appropriate Engine/Platform, basic request validation and API versioning. Not an HTTP gateway.
 - `SecurityCore`: Manages framework security aspects, primarily focused on secure secret maangement.
 
-### 3.2. `Yakut::CognitionEngine`
+## 3.2. `Yakut::CognitionEngine`
 
 The data and intelligence hub, transforms raw data into a structured understanding of the engagement.
 
@@ -45,7 +58,7 @@ The data and intelligence hub, transforms raw data into a structured understandi
 - `IntelIngestionPipeline`: Processes data from `Intel` capabilities and external feeds.
 - `ScopeEnforcementService`: Checks if a proposed action/target is within the defined Workspace scope.
 
-### 3.3. `Yakut::OperationsPlatform`
+## 3.3. `Yakut::OperationsPlatform`
 
 The engine for executing all active offensive, defensive and utility capabilities.
 
@@ -56,7 +69,7 @@ The engine for executing all active offensive, defensive and utility capabilitie
 - `EvasionServices`: Provides on-demand evasion techniques. It is a collection of Ruby classes/modules implementing various obfuscation, encoding, process injection or anti-analysis techniques.
 - `YSL (Yakut Standard Library)`: A curated set of Ruby mixins, utility classes, and functions provided to capability developers.
 
-### 3.4. `Yakut::C2Infrastructure`
+## 3.4. `Yakut::C2Infrastructure`
 
 Manages the network communication aspects of Command and Control.
 
@@ -65,7 +78,7 @@ Manages the network communication aspects of Command and Control.
 - `C2ProfileEngine`: Applies malleable C2 profiles to active listeners and channels.
 - `Routing & Pivoting Subsystem`: Manages network routes through compromised hosts (pivots). Interacts with active YakutAgent sessions to set up SOCKS proxies or port forwards on compromised hosts. Maintains an internal routing table that other Capabilities can use to direct their traffic through pivots. May involve low-level packet manipulation or dynamic proxying logic.
 
-### 3.5. `Yakut::CampaignOrchestrator`
+## 3.5. `Yakut::CampaignOrchestrator`
 
 The strategic automation engine for complex, multi-stage operations.
 
@@ -73,7 +86,7 @@ The strategic automation engine for complex, multi-stage operations.
 - `CampaignLifecycleManager`: Manages the overall lifecycle of defined Campaigns (objectives, status, associated Workspaces, timelines).
 - `ConditionalLogicEvaluator`: Evaluates conditions within orchestration workflows.
 
-### 3.6. `Yakut::InterfaceAdapters`
+## 3.6. `Yakut::InterfaceAdapters`
 
 Provides external interfaces to the Yakut ecosystem.
 
@@ -81,12 +94,12 @@ Provides external interfaces to the Yakut ecosystem.
 - (Future) `Yakut::WebUIAdapter`: Could be a Ruby web framework (Rails, Sinatra, ...) application that communicates with the `Yakut::Kernel` via the `InternalAPIGateway`.
 - (Future) `Yakut::ExternalAPIAdapter`: Could expose a RESTful (e.g., using Grape or Rails API) or gRPC interface. Requests would be authenticated and then translated into calls to the `InternalAPIGateway`.
 
-## 4. Data Flow & Interaction Patterns
+# 4. Data Flow & Interaction Patterns
 
 - **Synchronous control flow:** User commands from the `CLIAdapter` typically result in synchronous calls through the `InternalAPIGateway` to components like `OperationsPlatform` (to run a Capability) or `CognitionEngine` (to query data).
 - **Asynchronous event flow:** Discoveries (new hosts, vulns, loot) or state changes (session opened, job completed) are published as events on the `EventFabric`. Other components subscribe to these events to react appropriately (e.g., `CognitionEngine` updates its DataStore, `CLIAdapter` shows a notification).
 
-### 4.1. Capability Execution Lifecycle
+## 4.1. Capability Execution Lifecycle
 
 1. User selects and configures a Capability via `CLIAdapter`.
 2. `CLIAdapter` requests `OperationsPlatform` to execute the Capability.

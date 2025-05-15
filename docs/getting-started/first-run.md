@@ -4,13 +4,17 @@ Once you have completed the [Installation](./installation.md) and
 [Initial Configuration](./initial-configuration.md), you are ready to launch the
 Yakut framework console for the first time.
 
-## 1. Launching the Yakut Console
+- [Running Yakut for the First Time](#running-yakut-for-the-first-time)
+- [1. Launching the Yakut Console](#1-launching-the-yakut-console)
+- [2. Expected Output on First Launch](#2-expected-output-on-first-launch)
+
+# 1. Launching the Yakut Console
 
 ```bash
 yakut-console
 ```
 
-## 2. Expected Output on First Launch
+# 2. Expected Output on First Launch
 
 Upon successful launch, you should see something similar to the following:
 

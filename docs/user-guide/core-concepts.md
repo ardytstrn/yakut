@@ -4,7 +4,18 @@ To effectively use Yakut, it's essential to understand its fundamental building 
 and how they interact. This section explains the core concepts you'll encounter
 frequently.
 
-## 1. Workspaces
+- [Core Concepts in Yakut](#core-concepts-in-yakut)
+- [1. Workspaces](#1-workspaces)
+- [2. Targets](#2-targets)
+- [3. Capabilities](#3-capabilities)
+- [4. Options](#4-options)
+- [5. Jobs](#5-jobs)
+- [6. Sessions](#6-sessions)
+- [7. Loots](#7-loots)
+- [8. Contexts](#8-contexts)
+- [9. Scope Definition](#9-scope-definition)
+
+# 1. Workspaces
 
 - **Definition:** A workspace is an isolated environment within Yakut used to organize data for a specific engagement, project or target set. All data related to an engagement —such as discovered hosts, services, vulnerabilities, collected loot, notes and command history— is typically scoped to the active workspace.
 - **Purpose:**
@@ -13,7 +24,7 @@ frequently.
   - **Reporting:** Makes it easier to generate reports specific to an engagement
 - **Key Operations:** Creating, listing, switching, deleting and archiving
 
-## 2. Targets
+# 2. Targets
 
 - **Definition:** A target represents any entity you are assessing or engaging with. This is most commonly a host (IP address or hostname) but could conceptually be extended to web applications, APIs, cloud resources or even organizations/individiuals for OSINT purposes.
 - **Attributes:** Yakut aims to store rich information about targets, including:
@@ -26,13 +37,13 @@ frequently.
 - **Purpose:** Centralizes all information about your targets, making it easy to query, correlate data and select targets for capability execution.
 - **Key Operations:** Adding, listing, viewing details, updating, deleting, tagging and managing services/vulnerabilities associated with targets.
 
-## 3. Capabilities
+# 3. Capabilities
 
 - **Definition:** Capabilities are the active, functional heart of Yakut. They are self-contained units of Ruby code designed to perform specific, well-defined tasks across the entire offensive security lifecycle.
 - **Purpose:** To provide reusable components for scanning, exploitation, post-exploitation, payload delivery, etc.
 - **Types:** `Exploit`, `Intel`, `Recon`, `Delivery`, `Post`, `Payload`, `Encoder`, `Cloud`, `AISec` (experimental)
 
-## 4. Options
+# 4. Options
 
 - **Definition:** Options are configurable parameters that control the behavior of Yakut.
 - **Scope:**
@@ -42,23 +53,23 @@ frequently.
 - **Types:** Options can be various types, such as strings, integers, booleans, IP addresses, file paths, enumerated lists (enums). Yakut provides validation for these.
 - **Required vs. Optional:** Some options are mandatory for a capability to run, while others are optional or have default values. The `capability options` command will indicate this.
 
-## 5. Jobs
+# 5. Jobs
 
 - **Definition:** A job represents a capability or task that is running in the background.
 - **Purpose:** Improves interactivity and allows for multitasking within the framework.
 
-## 6. Sessions
+# 6. Sessions
 
 - **Definition:** A session represents an active, interactive connection established with a compromised target system after a successful exploit and payload execution.
 - **Purpose:** Provides a means to interact with the target, gather information, escalate privileges, pivot to other systems and deploy further post-exploitation capabilities.
 
-## 7. Loots
+# 7. Loots
 
 - **Definition:** Loot refers to any valuable information or data collected from target systems during an engagement.
 - **Types:** Credentials, password hashes, sensitive files, screenshots, configuration details, PII, keys, etc.
 - **Purpose:** Centralizes the storage and management of all collected data, making it easy to search, reference and use in reporting. Loot is typically associated with a specific host and service within a workspace.
 
-## 8. Contexts
+# 8. Contexts
 
 - **Definition:** As mentioned in the [CLI Overview](./cli-overview.md#2-the-command-prompt), Yakut's console operates in different contexts. The available commands and the effect of commands like `set` or `run` depend on the current context (Global, Workspace, Capability, Session).
 - **Switching Contexts:**
@@ -67,7 +78,7 @@ frequently.
   - `sessions interact <id>`: Switches to session context.
   - `back`: Moves out of the current context (e.g., from capability to workspace/global).
 
-## 9. Scope Definition
+# 9. Scope Definition
 
 - **Definition:** Within each workspace, users can formally define the authorized scope of the engagement. This includes IP ranges, domains, specific applications or even excluded targets.
 - **Purpose:** Yakut can use this scope definition to provide warnings or even (optionally) block actions that appear to target systems outside the defined scope.

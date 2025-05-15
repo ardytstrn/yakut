@@ -3,7 +3,12 @@
 Before you can install and run Yakut, please ensure your system meets the
 following requirements:
 
-## 1. Ruby Environment
+- [Prerequisites](#prerequisites)
+- [1. Ruby Environment](#1-ruby-environment)
+- [2. Version Control](#2-version-control)
+- [3. Build Tools](#3-build-tools)
+
+# 1. Ruby Environment
 
 - **Ruby:** Yakut is built with Ruby. We recommend using the **latest stable version of Ruby (currently 3.4+ is targeted)**.
 
@@ -21,13 +26,13 @@ following requirements:
 gem install bundler
 ```
 
-## 2. Version Control
+# 2. Version Control
 
 - **Git:** You will need Git to clone the Yakut repository.
   - Most systems have Git pre-installed. You can check with `git --version`.
   - If not, download it from [git-scm.com](https://git-scm.com/downloads).
 
-## 3. Build Tools
+# 3. Build Tools
 
 Ruby and some of its gems are written in C or require C extensions to be compiled during
 installation. Therefore, you need a proper build environment.
