@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Developer Guide - Yakut</title>
+        <title>Session Handling - Yakut</title>
 
 
         <!-- Custom HTML head -->
@@ -128,7 +128,7 @@
                         <a href="https://github.com/ardytstrn/yakut" title="Git repository" aria-label="Git repository">
                             <i id="git-repository-button" class="fa fa-github"></i>
                         </a>
-                        <a href="https://github.com/ardytstrn/docs/edit/main/docs/developer-guide/README.md" title="Suggest an edit" aria-label="Suggest an edit">
+                        <a href="https://github.com/ardytstrn/docs/edit/main/docs/user-guide/session-handling.md" title="Suggest an edit" aria-label="Suggest an edit">
                             <i id="git-edit-button" class="fa fa-edit"></i>
                         </a>
 
@@ -157,17 +157,37 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="developer-guide"><a class="header" href="#developer-guide">Developer Guide</a></h1>
+                        <h1 id="session-handling-in-yakut"><a class="header" href="#session-handling-in-yakut">Session Handling in Yakut</a></h1>
+<p>Once an <code>Exploit</code> Capability has successfully delivered a payload and esablished a
+connection back to Yakut, you gain a <em>Session</em>. A Session represents an active,
+interactive channel to the compromised target system. It allows you to perform
+post-exploitation activities, gather further intelligence and potentially pivot
+to other systems within the network.</p>
+<p>Yakut's <code>Yakut::OperationsPlatform</code> (via its <code>SessionOrchestrationService</code>) and <code>Yakut::C2Infrastructure</code> are responsible for managing these sessions.</p>
+<ul>
+<li><a href="#session-handling-in-yakut">Session Handling in Yakut</a></li>
+<li><a href="#1-what-is-a-session">1. What is a Session?</a></li>
+</ul>
+<h1 id="1-what-is-a-session"><a class="header" href="#1-what-is-a-session">1. What is a Session?</a></h1>
+<ul>
+<li><strong>Interactive Control:</strong> A session provides you with a means to execute commands, run scripts, transfer files and generally control the target machine.</li>
+<li><strong>Types of Sessions:</strong>
+<ul>
+<li><strong>YakutAgent Sessions:</strong> The most powerful and flexible type, utilizing Yakut's advanced, Ruby-based agent. These offer a rich set of built-in commands, in-memory execution capabilities, and integration with Yakut's C2 profiles and post-exploitation Capabilities.</li>
+<li><strong>Shell Sessions:</strong> Basic command-line shells (e.g., <code>cmd.exe</code>, <code>/bin/bash</code>, <code>powershell.exe</code>) obtained via simpler payloads. Functionality is limited to standard shell commands.</li>
+</ul>
+</li>
+</ul>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../user-guide/session-handling.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../user-guide/payload-management.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
-                            <a rel="next prefetch" href="../developer-guide/architectural-overview.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="../developer-guide/index.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
 
@@ -177,11 +197,11 @@
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../user-guide/session-handling.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../user-guide/payload-management.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
 
-                    <a rel="next prefetch" href="../developer-guide/architectural-overview.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="../developer-guide/index.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>
