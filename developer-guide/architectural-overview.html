@@ -162,7 +162,27 @@
 and those wishing to contribute to its core. Yakut is designed as a collection of
 interconnected, yet largely independent, components that work together to provide a
 comprehensive penetration testing environment.</p>
-<h2 id="1-core-architectural-tenets"><a class="header" href="#1-core-architectural-tenets">1. Core Architectural Tenets</a></h2>
+<ul>
+<li><a href="#architectural-overview">Architectural Overview</a></li>
+<li><a href="#1-core-architectural-tenets">1. Core Architectural Tenets</a></li>
+<li><a href="#2-high-level-component-diagram">2. High-Level Component Diagram</a></li>
+<li><a href="#3-detailed-component-breakdown">3. Detailed Component Breakdown</a>
+<ul>
+<li><a href="#31-yakutkernel">3.1. <code>Yakut::Kernel</code></a></li>
+<li><a href="#32-yakutcognitionengine">3.2. <code>Yakut::CognitionEngine</code></a></li>
+<li><a href="#33-yakutoperationsplatform">3.3. <code>Yakut::OperationsPlatform</code></a></li>
+<li><a href="#34-yakutc2infrastructure">3.4. <code>Yakut::C2Infrastructure</code></a></li>
+<li><a href="#35-yakutcampaignorchestrator">3.5. <code>Yakut::CampaignOrchestrator</code></a></li>
+<li><a href="#36-yakutinterfaceadapters">3.6. <code>Yakut::InterfaceAdapters</code></a></li>
+</ul>
+</li>
+<li><a href="#4-data-flow--interaction-patterns">4. Data Flow &amp; Interaction Patterns</a>
+<ul>
+<li><a href="#41-capability-execution-lifecycle">4.1. Capability Execution Lifecycle</a></li>
+</ul>
+</li>
+</ul>
+<h1 id="1-core-architectural-tenets"><a class="header" href="#1-core-architectural-tenets">1. Core Architectural Tenets</a></h1>
 <ul>
 <li>Function-centric microservices-inspired design</li>
 <li>Intelligence-driven operations</li>
@@ -176,10 +196,10 @@ comprehensive penetration testing environment.</p>
 <li>API-first principle</li>
 <li>Asynchronous &amp; event-driven paradigm</li>
 </ul>
-<h2 id="2-high-level-component-diagram"><a class="header" href="#2-high-level-component-diagram">2. High-Level Component Diagram</a></h2>
+<h1 id="2-high-level-component-diagram"><a class="header" href="#2-high-level-component-diagram">2. High-Level Component Diagram</a></h1>
 <p><img src="../component-diagram.png" alt="Diagram" /></p>
-<h2 id="3-detailed-component-breakdown"><a class="header" href="#3-detailed-component-breakdown">3. Detailed Component Breakdown</a></h2>
-<h3 id="31-yakutkernel"><a class="header" href="#31-yakutkernel">3.1. <code>Yakut::Kernel</code></a></h3>
+<h1 id="3-detailed-component-breakdown"><a class="header" href="#3-detailed-component-breakdown">3. Detailed Component Breakdown</a></h1>
+<h2 id="31-yakutkernel"><a class="header" href="#31-yakutkernel">3.1. <code>Yakut::Kernel</code></a></h2>
 <p>The Kernel is the immutable core. It provides the fundational runtime and system-level services. It does not contain business logic related to penetration testing itself but enables all other components.</p>
 <ul>
 <li><code>LifecycleManager</code>: Manages the boot sequence (dependency injection, service initialization order), health checks of core services and coordinated shutdown.</li>
@@ -190,7 +210,7 @@ comprehensive penetration testing environment.</p>
 <li><code>InternalAPIGateway</code>: Acts as a unified, versioned Facade for all core framework services. This is the <em>sole entry point</em> for <code>InterfaceAdapters</code> and for structured inter-component API calls. It exposes well-defined Ruby methods. Handles request routing to the appropriate Engine/Platform, basic request validation and API versioning. Not an HTTP gateway.</li>
 <li><code>SecurityCore</code>: Manages framework security aspects, primarily focused on secure secret maangement.</li>
 </ul>
-<h3 id="32-yakutcognitionengine"><a class="header" href="#32-yakutcognitionengine">3.2. <code>Yakut::CognitionEngine</code></a></h3>
+<h2 id="32-yakutcognitionengine"><a class="header" href="#32-yakutcognitionengine">3.2. <code>Yakut::CognitionEngine</code></a></h2>
 <p>The data and intelligence hub, transforms raw data into a structured understanding of the engagement.</p>
 <ul>
 <li><code>Workspace &amp; DataStore Management</code>: Manages Workspace lifecycle and data persistence.</li>
@@ -200,7 +220,7 @@ comprehensive penetration testing environment.</p>
 <li><code>IntelIngestionPipeline</code>: Processes data from <code>Intel</code> capabilities and external feeds.</li>
 <li><code>ScopeEnforcementService</code>: Checks if a proposed action/target is within the defined Workspace scope.</li>
 </ul>
-<h3 id="33-yakutoperationsplatform"><a class="header" href="#33-yakutoperationsplatform">3.3. <code>Yakut::OperationsPlatform</code></a></h3>
+<h2 id="33-yakutoperationsplatform"><a class="header" href="#33-yakutoperationsplatform">3.3. <code>Yakut::OperationsPlatform</code></a></h2>
 <p>The engine for executing all active offensive, defensive and utility capabilities.</p>
 <ul>
 <li><code>CapabilityRegistry</code>: Discovers, loads, validates, and manages capabilities.</li>
@@ -210,7 +230,7 @@ comprehensive penetration testing environment.</p>
 <li><code>EvasionServices</code>: Provides on-demand evasion techniques. It is a collection of Ruby classes/modules implementing various obfuscation, encoding, process injection or anti-analysis techniques.</li>
 <li><code>YSL (Yakut Standard Library)</code>: A curated set of Ruby mixins, utility classes, and functions provided to capability developers.</li>
 </ul>
-<h3 id="34-yakutc2infrastructure"><a class="header" href="#34-yakutc2infrastructure">3.4. <code>Yakut::C2Infrastructure</code></a></h3>
+<h2 id="34-yakutc2infrastructure"><a class="header" href="#34-yakutc2infrastructure">3.4. <code>Yakut::C2Infrastructure</code></a></h2>
 <p>Manages the network communication aspects of Command and Control.</p>
 <ul>
 <li><code>ListenerManager</code>: Binds to network ports and accepts incoming connections for various C2 protocols.</li>
@@ -218,26 +238,26 @@ comprehensive penetration testing environment.</p>
 <li><code>C2ProfileEngine</code>: Applies malleable C2 profiles to active listeners and channels.</li>
 <li><code>Routing &amp; Pivoting Subsystem</code>: Manages network routes through compromised hosts (pivots). Interacts with active YakutAgent sessions to set up SOCKS proxies or port forwards on compromised hosts. Maintains an internal routing table that other Capabilities can use to direct their traffic through pivots. May involve low-level packet manipulation or dynamic proxying logic.</li>
 </ul>
-<h3 id="35-yakutcampaignorchestrator"><a class="header" href="#35-yakutcampaignorchestrator">3.5. <code>Yakut::CampaignOrchestrator</code></a></h3>
+<h2 id="35-yakutcampaignorchestrator"><a class="header" href="#35-yakutcampaignorchestrator">3.5. <code>Yakut::CampaignOrchestrator</code></a></h2>
 <p>The strategic automation engine for complex, multi-stage operations.</p>
 <ul>
 <li><code>WorkflowEngine</code>: Executes <code>Orchestration</code> capabilities.</li>
 <li><code>CampaignLifecycleManager</code>: Manages the overall lifecycle of defined Campaigns (objectives, status, associated Workspaces, timelines).</li>
 <li><code>ConditionalLogicEvaluator</code>: Evaluates conditions within orchestration workflows.</li>
 </ul>
-<h3 id="36-yakutinterfaceadapters"><a class="header" href="#36-yakutinterfaceadapters">3.6. <code>Yakut::InterfaceAdapters</code></a></h3>
+<h2 id="36-yakutinterfaceadapters"><a class="header" href="#36-yakutinterfaceadapters">3.6. <code>Yakut::InterfaceAdapters</code></a></h2>
 <p>Provides external interfaces to the Yakut ecosystem.</p>
 <ul>
 <li><code>Yakut::CLIAdapter</code> (<code>yakut-console</code>): The primary interactive command-line interface.</li>
 <li>(Future) <code>Yakut::WebUIAdapter</code>: Could be a Ruby web framework (Rails, Sinatra, ...) application that communicates with the <code>Yakut::Kernel</code> via the <code>InternalAPIGateway</code>.</li>
 <li>(Future) <code>Yakut::ExternalAPIAdapter</code>: Could expose a RESTful (e.g., using Grape or Rails API) or gRPC interface. Requests would be authenticated and then translated into calls to the <code>InternalAPIGateway</code>.</li>
 </ul>
-<h2 id="4-data-flow--interaction-patterns"><a class="header" href="#4-data-flow--interaction-patterns">4. Data Flow &amp; Interaction Patterns</a></h2>
+<h1 id="4-data-flow--interaction-patterns"><a class="header" href="#4-data-flow--interaction-patterns">4. Data Flow &amp; Interaction Patterns</a></h1>
 <ul>
 <li><strong>Synchronous control flow:</strong> User commands from the <code>CLIAdapter</code> typically result in synchronous calls through the <code>InternalAPIGateway</code> to components like <code>OperationsPlatform</code> (to run a Capability) or <code>CognitionEngine</code> (to query data).</li>
 <li><strong>Asynchronous event flow:</strong> Discoveries (new hosts, vulns, loot) or state changes (session opened, job completed) are published as events on the <code>EventFabric</code>. Other components subscribe to these events to react appropriately (e.g., <code>CognitionEngine</code> updates its DataStore, <code>CLIAdapter</code> shows a notification).</li>
 </ul>
-<h3 id="41-capability-execution-lifecycle"><a class="header" href="#41-capability-execution-lifecycle">4.1. Capability Execution Lifecycle</a></h3>
+<h2 id="41-capability-execution-lifecycle"><a class="header" href="#41-capability-execution-lifecycle">4.1. Capability Execution Lifecycle</a></h2>
 <ol>
 <li>User selects and configures a Capability via <code>CLIAdapter</code>.</li>
 <li><code>CLIAdapter</code> requests <code>OperationsPlatform</code> to execute the Capability.</li>

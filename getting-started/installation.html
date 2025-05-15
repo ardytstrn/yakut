@@ -160,17 +160,28 @@
                         <h1 id="installation"><a class="header" href="#installation">Installation</a></h1>
 <p>This guide details how to install Yakut form its source code repository.</p>
 <p><strong>Ensure you have met all <a href="./prerequisites.html">Prerequisites</a> before proceeding.</strong></p>
-<h2 id="steps"><a class="header" href="#steps">Steps</a></h2>
-<h3 id="1-clone-the-yakup-repository"><a class="header" href="#1-clone-the-yakup-repository">1. Clone the Yakup Repository</a></h3>
+<ul>
+<li><a href="#installation">Installation</a></li>
+<li><a href="#steps">Steps</a>
+<ul>
+<li><a href="#1-clone-the-yakup-repository">1. Clone the Yakup Repository</a></li>
+<li><a href="#2-navigate-to-the-project-repository">2. Navigate to the Project Repository</a></li>
+<li><a href="#3-install-ruby-dependencies-with-bundler">3. Install Ruby Dependencies with Bundler</a></li>
+<li><a href="#4-verifying-installation">4. Verifying Installation</a></li>
+</ul>
+</li>
+</ul>
+<h1 id="steps"><a class="header" href="#steps">Steps</a></h1>
+<h2 id="1-clone-the-yakup-repository"><a class="header" href="#1-clone-the-yakup-repository">1. Clone the Yakup Repository</a></h2>
 <p>Open your terminal and navigate to the directory where you want to clone the Yakut
 project. Then, run the following command:</p>
 <pre><code class="language-bash">git clone https://github.com/ardytstrn/yakut.git
 </code></pre>
 <p>This will create a <code>yakut</code> directory containing the project's source code.</p>
-<h3 id="2-navigate-to-the-project-repository"><a class="header" href="#2-navigate-to-the-project-repository">2. Navigate to the Project Repository</a></h3>
+<h2 id="2-navigate-to-the-project-repository"><a class="header" href="#2-navigate-to-the-project-repository">2. Navigate to the Project Repository</a></h2>
 <pre><code class="language-bash">cd yakut
 </code></pre>
-<h3 id="3-install-ruby-dependencies-with-bundler"><a class="header" href="#3-install-ruby-dependencies-with-bundler">3. Install Ruby Dependencies with Bundler</a></h3>
+<h2 id="3-install-ruby-dependencies-with-bundler"><a class="header" href="#3-install-ruby-dependencies-with-bundler">3. Install Ruby Dependencies with Bundler</a></h2>
 <p>Yakut uses Bundler to manage its required Ruby gems. Run the following command to
 install all necessary dependencies:</p>
 <pre><code class="language-bash">bundle install
@@ -187,7 +198,7 @@ compiled.</p>
 </ul>
 </li>
 </ul>
-<h3 id="4-verifying-installation"><a class="header" href="#4-verifying-installation">4. Verifying Installation</a></h3>
+<h2 id="4-verifying-installation"><a class="header" href="#4-verifying-installation">4. Verifying Installation</a></h2>
 <p>While there isn't a universal check until you run the console, ensuring <code>bundle install</code>
 completes without errors is a good sign.</p>
 <p>With these steps completed, Yakut's core files and dependencies should be installed

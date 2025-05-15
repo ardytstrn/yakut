@@ -159,31 +159,45 @@
                     <main>
                         <h1 id="cli-overview-the-yakut-console"><a class="header" href="#cli-overview-the-yakut-console">CLI Overview: The Yakut Console</a></h1>
 <p>The Yakut Console is the primary interface for interacting with the Yakut framework.</p>
-<h2 id="1-launching-the-console"><a class="header" href="#1-launching-the-console">1. Launching the Console</a></h2>
+<ul>
+<li><a href="#cli-overview-the-yakut-console">CLI Overview: The Yakut Console</a></li>
+<li><a href="#1-launching-the-console">1. Launching the Console</a></li>
+<li><a href="#2-the-command-prompt">2. The Command Prompt</a>
+<ul>
+<li><a href="#global-context">Global Context</a></li>
+<li><a href="#workspace-context">Workspace Context</a></li>
+<li><a href="#capability-context">Capability Context</a></li>
+<li><a href="#session-context">Session Context</a></li>
+</ul>
+</li>
+<li><a href="#3-basic-navigation--interaction">3. Basic Navigation &amp; Interaction</a></li>
+<li><a href="#4-output-structure">4. Output Structure</a></li>
+</ul>
+<h1 id="1-launching-the-console"><a class="header" href="#1-launching-the-console">1. Launching the Console</a></h1>
 <p>As covered in the <a href="../getting-started/first-run.html#launching-the-yakut-console">Getting Started Guide</a>, you typically launch the console using:</p>
 <pre><code class="language-bash">yakut-console
 </code></pre>
 <p>Upon launching, you'll be greeted by the Yakut banner and the command prompt.</p>
-<h2 id="2-the-command-prompt"><a class="header" href="#2-the-command-prompt">2. The Command Prompt</a></h2>
+<h1 id="2-the-command-prompt"><a class="header" href="#2-the-command-prompt">2. The Command Prompt</a></h1>
 <p>The Yakut command prompt is designed to be context-aware.</p>
-<h4 id="global-context"><a class="header" href="#global-context">Global Context</a></h4>
+<h3 id="global-context"><a class="header" href="#global-context">Global Context</a></h3>
 <pre><code class="language-bash">yakut &gt;
 </code></pre>
 <p>Indicates you are at the top level of the framework, not actively working within a specific module or session.</p>
-<h4 id="workspace-context"><a class="header" href="#workspace-context">Workspace Context</a></h4>
+<h3 id="workspace-context"><a class="header" href="#workspace-context">Workspace Context</a></h3>
 <pre><code class="language-bash">yakut [ws:my_project] &gt;
 </code></pre>
 <p>Indicates that the workspace named "my_project" is currently active. All data operations (targets, loot) will be scoped to this workspace.</p>
-<h4 id="capability-context"><a class="header" href="#capability-context">Capability Context</a></h4>
+<h3 id="capability-context"><a class="header" href="#capability-context">Capability Context</a></h3>
 <pre><code class="language-bash">yakut [exploit/multi/http/yakut_web_rce] &gt;
 </code></pre>
 <p>Indicates that you have loaded the <code>exploit/multi/http/yakut_web_rce</code> capability.</p>
-<h4 id="session-context"><a class="header" href="#session-context">Session Context</a></h4>
+<h3 id="session-context"><a class="header" href="#session-context">Session Context</a></h3>
 <pre><code class="language-bash">yakut [session:1 (10.0.0.5:ruby_agent)] &gt;
 </code></pre>
 <p>Indicates you are actively interacting with session <code>1</code>, connected to <code>10.0.0.5</code> via the
 <code>ruby_agent</code>. Commands will be interpreted by the session handler.</p>
-<h2 id="3-basic-navigation--interaction"><a class="header" href="#3-basic-navigation--interaction">3. Basic Navigation &amp; Interaction</a></h2>
+<h1 id="3-basic-navigation--interaction"><a class="header" href="#3-basic-navigation--interaction">3. Basic Navigation &amp; Interaction</a></h1>
 <ul>
 <li><strong>Command History:</strong>
 <ul>
@@ -214,7 +228,7 @@
 </ul>
 </li>
 </ul>
-<h2 id="4-output-structure"><a class="header" href="#4-output-structure">4. Output Structure</a></h2>
+<h1 id="4-output-structure"><a class="header" href="#4-output-structure">4. Output Structure</a></h1>
 <p>Yakut strives to provide clear, structured and useful output.</p>
 <ul>
 <li><strong>Status Messages:</strong>

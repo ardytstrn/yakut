@@ -162,7 +162,62 @@
 Yakut console. These commands allow you to manage workspaces, targets, capabilities, sessions,
 loot and the framework itself.</p>
 <p><em>Tip: Remember to utilize the tab completion extensively in the Yakut console. It will help you discover commands, sub-commands, capability paths and known values.</em></p>
-<h2 id="1-workspace-management-commands"><a class="header" href="#1-workspace-management-commands">1. Workspace Management Commands</a></h2>
+<ul>
+<li><a href="#common-commands">Common Commands</a></li>
+<li><a href="#1-workspace-management-commands">1. Workspace Management Commands</a>
+<ul>
+<li><a href="#workspace-or-workspace-list"><code>workspace</code> or <code>workspace list</code></a></li>
+<li><a href="#workspace-create-name---description-your-description"><code>workspace create &lt;name&gt; [--description "your description"]</code></a></li>
+<li><a href="#workspace-use-name_or_id"><code>workspace use &lt;name_or_id&gt;</code></a></li>
+<li><a href="#workspace-info-name_or_id"><code>workspace info &lt;name_or_id&gt;</code></a></li>
+<li><a href="#workspace-delete-name_or_id"><code>workspace delete &lt;name_or_id&gt;</code></a></li>
+<li><a href="#workspace-scope-define---include-ranges---exclude-ranges---notes-text"><code>workspace scope define [--include &lt;ranges&gt;] [--exclude &lt;ranges&gt;] [--notes "&lt;text&gt;"]</code></a></li>
+<li><a href="#workspace-scope-show-name_or_id"><code>workspace scope show &lt;name_or_id&gt;</code></a></li>
+</ul>
+</li>
+<li><a href="#2-target-management-commands">2. Target Management Commands</a>
+<ul>
+<li><a href="#target-add-ip_or_host_or_url---os-os---hostname-name---tags-tag1tag2---notes-text"><code>target add &lt;ip_or_host_or_url&gt; [--os &lt;os&gt;] [--hostname &lt;name&gt;] [--tags "tag1,tag2"] [--notes "&lt;text&gt;"]</code></a></li>
+<li><a href="#target-list---os-os---port-port---service-svc---vuln-cve_id---tags-tag---ip-range-or-targets"><code>target list [--os &lt;os&gt;] [--port &lt;port&gt;] [--service &lt;svc&gt;] [--vuln &lt;cve_id&gt;] [--tags "tag"] [--ip &lt;range&gt;]</code> or <code>targets</code></a></li>
+<li><a href="#target-show-id_or_ip_or_hostname"><code>target show &lt;id_or_ip_or_hostname&gt;</code></a></li>
+<li><a href="#target-update-id_or_ip_or_hostname---os-new_os---tags-new_tags---notes-new_notes"><code>target update &lt;id_or_ip_or_hostname&gt; --os &lt;new_os&gt; --tags "new_tags" --notes "&lt;new_notes&gt;"</code></a></li>
+<li><a href="#target-delete-id_or_ip_or_hostname"><code>target delete &lt;id_or_ip_or_hostname&gt;</code></a></li>
+<li><a href="#target-id_or_ip_or_hostname-services-listaddupdatedelete-service_options"><code>target &lt;id_or_ip_or_hostname&gt; services list|add|update|delete [service_options]</code></a></li>
+<li><a href="#target-id_or_ip_or_hostname-vulns-listaddupdatedelete-vuln_options"><code>target &lt;id_or_ip_or_hostname&gt; vulns list|add|update|delete [vuln_options]</code></a></li>
+</ul>
+</li>
+<li><a href="#3-module-interaction-commands">3. Module Interaction Commands</a>
+<ul>
+<li><a href="#capability-search-keyword-typetype-platformplatform-cveid-tagtag-nametext"><code>capability search &lt;keyword&gt; [type:&lt;type&gt;] [platform:&lt;platform&gt;] [cve:&lt;id&gt;] [tag:&lt;tag&gt;] [name:&lt;text&gt;]</code></a></li>
+<li><a href="#capability-info-capability_refname"><code>capability info &lt;capability_refname&gt;</code></a></li>
+<li><a href="#capability-use-capability_refname-or-use-capability_refname"><code>capability use &lt;capability_refname&gt;</code> or <code>use &lt;capability_refname&gt;</code></a></li>
+<li><a href="#capability-options-or-options-within-capability-context"><code>capability options</code> or <code>options</code> (within capability context)</a></li>
+<li><a href="#capability-options-set-option_name-value-or-set-option_name-value-within-capability-context"><code>capability options set &lt;OPTION_NAME&gt; &lt;value&gt;</code> or <code>set &lt;OPTION_NAME&gt; &lt;value&gt;</code> (within capability context)</a></li>
+<li><a href="#capability-options-payload-payload_refname-or-set-payload-payload_refname-for-exploit-capabilities"><code>capability options payload &lt;payload_refname&gt;</code> or <code>set PAYLOAD &lt;payload_refname&gt;</code> (for exploit capabilities)</a></li>
+<li><a href="#payload-options-or-poptions-within-capability-context-after-a-payload-is-set"><code>payload options</code> or <code>poptions</code> (within capability context, after a payload is set)</a></li>
+<li><a href="#payload-options-set-option_name-value-or-pset-option_name-value-within-capability-context"><code>payload options set &lt;OPTION_NAME&gt; &lt;value&gt;</code> or <code>pset &lt;OPTION_NAME&gt; &lt;value&gt;</code> (within capability context)</a></li>
+<li><a href="#capability-check-or-check-within-capability-context-if-capability-supports-it"><code>capability check</code> or <code>check</code> (within capability context, if capability supports it)</a></li>
+<li><a href="#capability-run---async-or-run---async-or-exploit---async-within-capability-context"><code>capability run [--async]</code> or <code>run [--async]</code> or <code>exploit [--async]</code> (within capability context)</a></li>
+<li><a href="#back"><code>back</code></a></li>
+<li><a href="#capability-reload_paths"><code>capability reload_paths</code></a></li>
+</ul>
+</li>
+<li><a href="#4-session-management-commands">4. Session Management Commands</a>
+<ul>
+<li><a href="#sessions-list-or-sessions"><code>sessions list</code> or <code>sessions</code></a></li>
+<li><a href="#sessions-interact-or-session-session_id"><code>sessions interact</code> or <code>session &lt;session_id&gt;</code></a></li>
+<li><a href="#within-session-context---examples-for-a-yakut_agent-session">Within Session Context - Examples for a <code>yakut_agent</code> session:</a></li>
+<li><a href="#sessions-kill-session_id"><code>sessions kill &lt;session_id&gt;</code></a></li>
+</ul>
+</li>
+<li><a href="#5-loot-management-commands">5. Loot Management Commands</a>
+<ul>
+<li><a href="#loot-list---type-type---service-svc---keyword-text-or-loot"><code>loot list [--type &lt;type&gt;] [--service &lt;svc&gt;] [--keyword &lt;text&gt;]</code> or <code>loot</code></a></li>
+<li><a href="#loot-add-type---host-host_or_id---service-service---user-user---secret-data---file-local_file_path---notes-text"><code>loot add &lt;type&gt; --host &lt;host_or_id&gt; [--service &lt;service&gt;] [--user &lt;user&gt;] [--secret "&lt;data&gt;"] [--file &lt;local_file_path&gt;] [--notes "&lt;text&gt;"]</code></a></li>
+</ul>
+</li>
+</ul>
+<h1 id="1-workspace-management-commands"><a class="header" href="#1-workspace-management-commands">1. Workspace Management Commands</a></h1>
 <h3 id="workspace-or-workspace-list"><a class="header" href="#workspace-or-workspace-list"><code>workspace</code> or <code>workspace list</code></a></h3>
 <p>Lists all available workspaces.</p>
 <pre><code class="language-console">yakut &gt; workspace list
@@ -219,7 +274,7 @@ yakut [ws:Default] &gt;
   Notes: Internal network and primary web app. No DoS on .254.
 </code></pre>
 <hr />
-<h2 id="2-target-management-commands"><a class="header" href="#2-target-management-commands">2. Target Management Commands</a></h2>
+<h1 id="2-target-management-commands"><a class="header" href="#2-target-management-commands">2. Target Management Commands</a></h1>
 <h3 id="target-add-ip_or_host_or_url---os-os---hostname-name---tags-tag1tag2---notes-text"><a class="header" href="#target-add-ip_or_host_or_url---os-os---hostname-name---tags-tag1tag2---notes-text"><code>target add &lt;ip_or_host_or_url&gt; [--os &lt;os&gt;] [--hostname &lt;name&gt;] [--tags "tag1,tag2"] [--notes "&lt;text&gt;"]</code></a></h3>
 <pre><code class="language-console">yakut [ws:ACME_Corp_Internal] &gt; target add 10.10.20.5 --os "Windows Server 2019" --hostname "DC01" --tags "DomainController,Critical"
 [+] Target 10.10.20.5 (DC01) added.
@@ -263,7 +318,7 @@ yakut [ws:ACME_Corp_Internal] &gt; target DC01 services list
 [+] Vulnerability MS17-010 added to target DC01.
 </code></pre>
 <hr />
-<h2 id="3-module-interaction-commands"><a class="header" href="#3-module-interaction-commands">3. Module Interaction Commands</a></h2>
+<h1 id="3-module-interaction-commands"><a class="header" href="#3-module-interaction-commands">3. Module Interaction Commands</a></h1>
 <h3 id="capability-search-keyword-typetype-platformplatform-cveid-tagtag-nametext"><a class="header" href="#capability-search-keyword-typetype-platformplatform-cveid-tagtag-nametext"><code>capability search &lt;keyword&gt; [type:&lt;type&gt;] [platform:&lt;platform&gt;] [cve:&lt;id&gt;] [tag:&lt;tag&gt;] [name:&lt;text&gt;]</code></a></h3>
 <pre><code class="language-console">yakut &gt; cap search eternalblue type:exploit platform:windows
 [*] Modules matching 'eternalblue type:exploit platform:windows':
@@ -368,7 +423,7 @@ yakut [ws:ACME_Corp_Internal] &gt;
 [+] Found 5 new capabilities.
 </code></pre>
 <hr />
-<h2 id="4-session-management-commands"><a class="header" href="#4-session-management-commands">4. Session Management Commands</a></h2>
+<h1 id="4-session-management-commands"><a class="header" href="#4-session-management-commands">4. Session Management Commands</a></h1>
 <h3 id="sessions-list-or-sessions"><a class="header" href="#sessions-list-or-sessions"><code>sessions list</code> or <code>sessions</code></a></h3>
 <pre><code class="language-console">yakut &gt; sessions list
 [*] Active sessions:
@@ -405,7 +460,7 @@ yakut [session:1 (10.10.10.150:yakut_agent)] &gt;
 [+] Session 2 closed.
 </code></pre>
 <hr />
-<h2 id="5-loot-management-commands"><a class="header" href="#5-loot-management-commands">5. Loot Management Commands</a></h2>
+<h1 id="5-loot-management-commands"><a class="header" href="#5-loot-management-commands">5. Loot Management Commands</a></h1>
 <h3 id="loot-list---type-type---service-svc---keyword-text-or-loot"><a class="header" href="#loot-list---type-type---service-svc---keyword-text-or-loot"><code>loot list [--type &lt;type&gt;] [--service &lt;svc&gt;] [--keyword &lt;text&gt;]</code> or <code>loot</code></a></h3>
 <pre><code class="language-console">yakut [ws:ACME_Corp_Internal] &gt; loot list --type creds --service ssh
 [*] Loot matching criteria:
