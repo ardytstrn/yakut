@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Working with Capabilities - Yakut</title>
+        <title>Payload Management - Yakut</title>
 
 
         <!-- Custom HTML head -->
@@ -128,7 +128,7 @@
                         <a href="https://github.com/ardytstrn/yakut" title="Git repository" aria-label="Git repository">
                             <i id="git-repository-button" class="fa fa-github"></i>
                         </a>
-                        <a href="https://github.com/ardytstrn/docs/edit/main/docs/user-guide/working-with-capabilities.md" title="Suggest an edit" aria-label="Suggest an edit">
+                        <a href="https://github.com/ardytstrn/docs/edit/main/docs/user-guide/payload-management.md" title="Suggest an edit" aria-label="Suggest an edit">
                             <i id="git-edit-button" class="fa fa-edit"></i>
                         </a>
 
@@ -157,66 +157,95 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="working-with-capabilities"><a class="header" href="#working-with-capabilities">Working with Capabilities</a></h1>
-<p>Capabilities are the core functional units within Yakut. hey encapsulate a wide array of
-actions, from reconnaissance and exploitation to post-exploitation and utility tasks.
-This guide will detail how to effectively find, understand, configure and run
-Capabilities to achieve your security assessment objectives.</p>
+                        <h1 id="payload-management-in-yakut"><a class="header" href="#payload-management-in-yakut">Payload Management in Yakut</a></h1>
+<p>Payloads are a crucial component of offensive security operations. They represent the
+code that executes on a target system after an <code>Exploit</code> <strong>Capability</strong> is successful or
+when delivered via a <code>Delivery</code> <strong>Capability</strong>. Yakut provides a flexible system for
+selecting, configuring and generating various types of payloads, with a special focus
+on its advanced native agent, the YakutAgent.</p>
+<p>This guide will cover how to manage and utilie payloads within Yakut.</p>
 <ul>
-<li><a href="#working-with-capabilities">Working with Capabilities</a></li>
-<li><a href="#1-what-are-capabilities">1. What are Capabilities?</a></li>
-<li><a href="#2-capability-naming--discovery-philosophy-in-yakut">2. Capability Naming &amp; Discovery Philosophy in Yakut</a></li>
-<li><a href="#1-understanding-module-types-in-yakut">1. Understanding Module Types in Yakut</a></li>
+<li><a href="#payload-management-in-yakut">Payload Management in Yakut</a></li>
+<li><a href="#1-what-is-a-payload-in-yakut">1. What is a Payload in Yakut?</a></li>
+<li><a href="#2-types-of-payloads">2. Types of Payloads</a></li>
+<li><a href="#3-generating-standalone-payloads">3. Generating Standalone Payloads</a></li>
+<li><a href="#4-payloads-and-c2-infrastructure">4. Payloads and C2 Infrastructure</a></li>
+<li><a href="#5-payload-encoding-and-evasion">5. Payload Encoding and Evasion</a></li>
 </ul>
-<h1 id="1-what-are-capabilities"><a class="header" href="#1-what-are-capabilities">1. What are Capabilities?</a></h1>
-<p>In Yakut, a capability is an evolution of the traditional "module" concept. It's a
-self-contained piece of Ruby code, managed by the <code>Yakut::OperationsPlatform</code>. Each
-capability is defined by:</p>
+<h1 id="1-what-is-a-payload-in-yakut"><a class="header" href="#1-what-is-a-payload-in-yakut">1. What is a Payload in Yakut?</a></h1>
+<p>In Yakut, a payload is the actual code or agent that performs actions on the target
+machine. Its primary purposes include:</p>
 <ul>
-<li><strong>A specific type:</strong> Indicating its general purpose (e.g., <code>Exploit</code>, <code>Intel</code>, <code>Recon</code>, <code>C2</code>, <code>Campaign</code>).</li>
-<li><strong>Rich metadata:</strong> Detailed information about its function, authors, targets, reliability, impact, and operational security (OPSEC) considerations.</li>
-<li><strong>Configurable options:</strong> Parameters that allow you to tailor its behavior.</li>
+<li><strong>Establishing Command &amp; Control (C2):</strong> Creating a communication channel back to the Yakut framework, allowing for interactive control over compromised system (e.g., opening a shell, running YakutAgent).</li>
+<li><strong>Executing Specific Actions:</strong> Performing predefined tasks like adding a user, executing a single command or downloading/uploading files without necessarily establishing a full interactive session.</li>
+<li><strong>Delivering Further Stages:</strong> In staged payloads, the initial payload is small and its job is to download and execute a larger, more feature-rich second stage (like the full YakutAgent).</li>
 </ul>
-<h1 id="2-capability-naming--discovery-philosophy-in-yakut"><a class="header" href="#2-capability-naming--discovery-philosophy-in-yakut">2. Capability Naming &amp; Discovery Philosophy in Yakut</a></h1>
-<p>Yakut employs a sophisticated approach to capability naming and discovery.</p>
+<p>Yakut's <code>Yakut::OperationsPlatform</code> (specifically its <code>PayloadGenerationService</code>) and <code>Yakut::C2Infrastructure</code> work together to manage payload generation, configuration and handling of incoming connections from these payloads.</p>
+<h1 id="2-types-of-payloads"><a class="header" href="#2-types-of-payloads">2. Types of Payloads</a></h1>
+<p>Yakut aims to support a variety of payload types to suit different scenarios and target environments:</p>
 <ul>
-<li>
-<p><strong>Canonical Module Paths (for Organization &amp; Developers):</strong> Capabilities are organized on the filesystem and identified by a structured path:</p>
+<li><strong>Singles (Stageless Payloads):</strong> These payloads contain all the code necessary to achieve their objective (e.g., establish a C2 session or execute a command) in a single package.</li>
+<li><strong>Stagers &amp; Stages (Staged Payloads):</strong>
 <ul>
-<li><code>&lt;type&gt;/&lt;platform_or_category&gt;/&lt;specific_target_or_service&gt;/&lt;short_descriptive_name&gt;</code></li>
-</ul>
-</li>
-<li>
-<p><strong>Rich Metadata &amp; Tagging (for Powerful Discovery):</strong> Each capability is accompanied by extensive metadata, including: <code>title</code>, <code>ref_name</code>, <code>type</code>, <code>tags</code>, <code>description</code>, <code>reliability_score</code>, <code>impact_score</code>, <code>opsec_rating</code>, <code>cleanup_available</code>, <code>privileged</code>.</p>
-</li>
-</ul>
-<h1 id="1-understanding-module-types-in-yakut"><a class="header" href="#1-understanding-module-types-in-yakut">1. Understanding Module Types in Yakut</a></h1>
-<p>Yakut categorizes its capabilities to reflect the various stages and tasks involved in an
-offensive security engagement. This includes enhancements to traditional capability types
-and introduces new, specialized categories:</p>
-<ul>
-<li>
-<p><strong>Standard Enhanced Types:</strong></p>
-<ul>
-<li><code>Exploit</code>: Capabilities designed to take advantage of specific vulnerabilities to gain unauthorized access or execute code on a target system.</li>
-<li><code>Auxiliary</code>: Used for actions that don't involve direct exploitation for access, such as scanning, enumeration, fuzzing, sniffing, denial-of-service, or administrative tasks.</li>
-<li><code>Post</code>: For post-exploitation activities conducted on a compromised system.</li>
-<li><code>Payload</code>: Code that is delivered by an exploit and runs on the target system. This includes simple command shells, staged loaders and the YakutAgent.</li>
-<li><code>Encoder</code>: Used to encode payloads to attempt to evade detection by security software. Often works in conjunction with <code>Evasion</code> capabilities.</li>
+<li><strong>Stagers:</strong> Small initial payloads whose sole purpose is to establish a connection back to Yakut and download the larger stage.</li>
+<li><strong>Stages:</strong> The actual functional payload (e.g., the full YakutAgent, a command shell) that is sent over the established connection.</li>
 </ul>
 </li>
-<li>
-<p><strong>New Capability Types:</strong></p>
+<li><strong>Command Execution Payloads:</strong> Payloads designed to execute a single command or a short script on the target system and then exit. They may or may not return output.</li>
+<li><strong>The YakutAgent (Advanced Native Agent):</strong>
 <ul>
-<li><code>Intel</code>: Capabilities focused on Open Source Intelligence (OSINT) gathering, processing threat intelligence feeds and enriching target information from external sources.</li>
-<li><code>Recon</code>: Dedicated to active and passive reconnaissance, network mapping, service identification and comprehensive attack surface discovery.</li>
-<li><code>Delivery</code>: Capabilities for crafting and managing the delivery of payloads to targets (e.g., generating phishing emails with attachments, setting up malicious file servers).</li>
-<li><code>C2 (Command &amp; Control)</code>: Capabilities for defining, configuring and managing verious Command &amp; Control communication channels and listener types (e.g., HTTP/2, DNS over HTTPS, custom protocols). These are often used by payloads like YakutAgent.</li>
-<li><code>Lateral</code>: Specialized post-exploitation capabilities focused on techniques for moving from one compromised host to another within a target network.</li>
-<li><code>Evasion</code>: Capabilities specifically designed to bypass or mitigate various defensive measures like AV, EDR, application whitelisting or specific forensic logging.</li>
-<li><code>Cloud</code>: Capabilities tailored for interacting with and assessing cloud platforms (AWS, Azure, GCP), covering enumeration of cloud-specific vulnerabilities and post-exploitation in cloud environments.</li>
-<li><code>Campaign</code>: Advanced meta-capabilities that allow users to define and automate complex attack chains or entire campaign scenarios using a Ruby DSL, linking multiple capabilities in sequence or based on conditional logic.</li>
-<li><code>AISec</code> (Experimental): Capabilities for the security assessment of AI/ML systems (e.g., testing for model evasion, data poisoning) or leveraging AI for analyzing data collected during engagements.</li>
+<li>This is Yakut's flagship payload, envisioned as a sophisticated, multi-functional agent written primarily in Ruby.</li>
+<li><strong>Features:</strong>
+<ul>
+<li>In-memory execution where possible.</li>
+<li>Encrypted and flexible C2 communication via channels defined by <code>C2</code> Capabilities (HTTP/S, DNS, SMB, etc.).</li>
+<li>Malleable C2 profiles for enhanced evasion.</li>
+<li>Extensible command set via its own internal mini-modules or scripts pushed from Yakut.</li>
+<li>Capabilities for advanced post-exploitation: file system interaction, process manipulation, port forwarding, pivoting, screenshoting, keylogging, in-memory Ruby script execution, etc.</li>
+<li>Designed for stability and stealth.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>Reflective DLL / SO Injection Payloads:</strong> Designed to be reflectively loaded into a compromised process's memory without dropping a file to disk, enhancing stealth. YakutAgent would heavily utilize this.</li>
+</ul>
+<h1 id="3-generating-standalone-payloads"><a class="header" href="#3-generating-standalone-payloads">3. Generating Standalone Payloads</a></h1>
+<p>Sometimes you may need to generate a payload as a standalone file (e.g., an <code>.exe</code>,
+<code>.elf</code>, <code>.py</code> script, or raw shellcode) to be delivered manually or via a third-party
+tool. Yakut will provide a utility for this, named <code>yakut-payload</code>.</p>
+<p>Command: <code>yakut-payload -p &lt;payload_refname&gt; LHOST=&lt;ip&gt; LPORT=&lt;port&gt; [other options] -f &lt;format&gt; -o /path/to/outputfile</code></p>
+<p>Example:</p>
+<pre><code class="language-bash">yakut-payload -p windows/x64/yakut_agent/reverse_tcp LHOST=192.168.1.100 LPORT=4444 -f exe -o /tmp/yakut_agent.exe
+[*] Generating windows/x64/yakut_agent/reverse_tcp payload (LHOST=192.168.1.100, LPORT=4444)
+[*] Output format: exe
+[+] Payload size: XXXXX bytes
+[+] Saved as /tmp/yakut_agent.exe
+</code></pre>
+<p>This utility would be developed as part of the <code>Yakut::OperationsPlatform</code>'s
+<code>PayloadGenerationService</code>.</p>
+<h1 id="4-payloads-and-c2-infrastructure"><a class="header" href="#4-payloads-and-c2-infrastructure">4. Payloads and C2 Infrastructure</a></h1>
+<p>A key aspect of Yakut's design is the tight integration between payloads (especially YakutAgent) and the <code>Yakut::C2Infrastructure</code>.</p>
+<ul>
+<li><code>C2</code> Capabilities: These define <em>how</em> Yakut listens for incoming connections and <em>how</em> agents communicate. Examples:
+<ul>
+<li><code>c2/listener/http_default</code>: A basic HTTP listener.</li>
+<li><code>c2/listener/dns_exfil_beacon</code>: A listener that uses DNS for C2.</li>
+<li><code>c2/profile/malleable_office365_traffic</code>: A C2 profile that makes traffic look like legitimate Office365 communication.</li>
+</ul>
+</li>
+<li><strong>Payload Configuration:</strong> When configuring a payload, you'll often specify which C2 listener profile it should connect to. This allows you to easily switch between different C2 strategies without regenerating the core payload logic.</li>
+<li><strong>Dynamic C2:</strong> YakutAgent will be designed to potantially switch C2 channels or adapt its communication based on directives from the framework or pre-configured profiles.</li>
+</ul>
+<h1 id="5-payload-encoding-and-evasion"><a class="header" href="#5-payload-encoding-and-evasion">5. Payload Encoding and Evasion</a></h1>
+<p>To bypass antivirus and other detection mechanisms, payloads often need to be encoded
+or obfuscated.</p>
+<ul>
+<li><code>Encoder</code> Capabilities: These Capabilities take raw payload code and transform it to avoid signature-based detection.</li>
+<li><code>Evasion</code> Capabilities: These may provide more advanced techniques, including runtime evasion, process injection methods or modifying payload delivery to bypass specific security products.</li>
+<li><strong>Integration:</strong>
+<ul>
+<li>The <code>PayloadGenerationService</code> (and <code>yakut-payload</code> utility) will allow specifying encoders.</li>
+<li><code>Exploit</code> and <code>Delivery</code> Capabilities might have options to apply specific evasion techniques during payload staging or execution.</li>
 </ul>
 </li>
 </ul>
@@ -225,11 +254,11 @@ and introduces new, specialized categories:</p>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../user-guide/common-commands.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../user-guide/working-with-capabilities.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
-                            <a rel="next prefetch" href="../user-guide/payload-management.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="../developer-guide/index.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
 
@@ -239,11 +268,11 @@ and introduces new, specialized categories:</p>
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../user-guide/common-commands.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../user-guide/working-with-capabilities.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
 
-                    <a rel="next prefetch" href="../user-guide/payload-management.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="../developer-guide/index.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>
