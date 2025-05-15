@@ -12,5 +12,7 @@
   - [Core Concepts](./user-guide/core-concepts.md)
   - [Common Commands](./user-guide/common-commands.md)
   - [Working with Capabilities](./user-guide/working-with-capabilities.md)
+  - [Payload Management](./user-guide/payload-management.md)
 - [Developer Guide](./developer-guide/README.md)
   - [Architectural Overview](./developer-guide/architectural-overview.md)
+  - [Capability Development](./developer-guide/capability-development/README.md)
