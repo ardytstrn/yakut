@@ -1,0 +1,304 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Core Concepts - Yakut</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="A dynamic and modular penetration testing framework and exploit development platform.">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Yakut</h1>
+
+                    <div class="right-buttons">
+                        <a href="https://github.com/ardytstrn/yakut" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/ardytstrn/docs/edit/main/docs/user-guide/core-concepts.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="core-concepts-in-yakut"><a class="header" href="#core-concepts-in-yakut">Core Concepts in Yakut</a></h1>
+<p>To effectively use Yakut, it's essential to understand its fundamental building blocks
+and how they interact. This section explains the core concepts you'll encounter
+frequently.</p>
+<h2 id="1-workspaces"><a class="header" href="#1-workspaces">1. Workspaces</a></h2>
+<ul>
+<li><strong>Definition:</strong> A workspace is an isolated environment within Yakut used to organize data for a specific engagement, project or target set. All data related to an engagement —such as discovered hosts, services, vulnerabilities, collected loot, notes and command history— is typically scoped to the active workspace.</li>
+<li><strong>Purpose:</strong>
+<ul>
+<li><strong>Organization:</strong> Keeps data from different penetration tests or research projects separate and manageable</li>
+<li><strong>Collaboration</strong></li>
+<li><strong>Reporting:</strong> Makes it easier to generate reports specific to an engagement</li>
+</ul>
+</li>
+<li><strong>Key Operations:</strong> Creating, listing, switching, deleting and archiving</li>
+</ul>
+<h2 id="2-targets"><a class="header" href="#2-targets">2. Targets</a></h2>
+<ul>
+<li><strong>Definition:</strong> A target represents any entity you are assessing or engaging with. This is most commonly a host (IP address or hostname) but could conceptually be extended to web applications, APIs, cloud resources or even organizations/individiuals for OSINT purposes.</li>
+<li><strong>Attributes:</strong> Yakut aims to store rich information about targets, including:
+<ul>
+<li>IP addresses, hostnames, MAC addresses</li>
+<li>Operating system details</li>
+<li>Open ports and running services (with versions)</li>
+<li>Discovered vulnerabilities (linked from capabilities or manual entry)</li>
+<li>Associated loot and credentials</li>
+<li>User notes and tags</li>
+</ul>
+</li>
+<li><strong>Purpose:</strong> Centralizes all information about your targets, making it easy to query, correlate data and select targets for capability execution.</li>
+<li><strong>Key Operations:</strong> Adding, listing, viewing details, updating, deleting, tagging and managing services/vulnerabilities associated with targets.</li>
+</ul>
+<h2 id="3-capabilities"><a class="header" href="#3-capabilities">3. Capabilities</a></h2>
+<ul>
+<li><strong>Definition:</strong> Capabilities are the active, functional heart of Yakut. They are self-contained units of Ruby code designed to perform specific, well-defined tasks across the entire offensive security lifecycle.</li>
+<li><strong>Purpose:</strong> To provide reusable components for scanning, exploitation, post-exploitation, payload delivery, etc.</li>
+<li><strong>Types:</strong> <code>Exploit</code>, <code>Intel</code>, <code>Recon</code>, <code>Delivery</code>, <code>Post</code>, <code>Payload</code>, <code>Encoder</code>, <code>Cloud</code>, <code>AISec</code> (experimental)</li>
+</ul>
+<h2 id="4-options"><a class="header" href="#4-options">4. Options</a></h2>
+<ul>
+<li><strong>Definition:</strong> Options are configurable parameters that control the behavior of Yakut.</li>
+<li><strong>Scope:</strong>
+<ul>
+<li>Global</li>
+<li>Capability</li>
+<li>Payload</li>
+</ul>
+</li>
+<li><strong>Types:</strong> Options can be various types, such as strings, integers, booleans, IP addresses, file paths, enumerated lists (enums). Yakut provides validation for these.</li>
+<li><strong>Required vs. Optional:</strong> Some options are mandatory for a capability to run, while others are optional or have default values. The <code>capability options</code> command will indicate this.</li>
+</ul>
+<h2 id="5-jobs"><a class="header" href="#5-jobs">5. Jobs</a></h2>
+<ul>
+<li><strong>Definition:</strong> A job represents a capability or task that is running in the background.</li>
+<li><strong>Purpose:</strong> Improves interactivity and allows for multitasking within the framework.</li>
+</ul>
+<h2 id="6-sessions"><a class="header" href="#6-sessions">6. Sessions</a></h2>
+<ul>
+<li><strong>Definition:</strong> A session represents an active, interactive connection established with a compromised target system after a successful exploit and payload execution.</li>
+<li><strong>Purpose:</strong> Provides a means to interact with the target, gather information, escalate privileges, pivot to other systems and deploy further post-exploitation capabilities.</li>
+</ul>
+<h2 id="7-loots"><a class="header" href="#7-loots">7. Loots</a></h2>
+<ul>
+<li><strong>Definition:</strong> Loot refers to any valuable information or data collected from target systems during an engagement.</li>
+<li><strong>Types:</strong> Credentials, password hashes, sensitive files, screenshots, configuration details, PII, keys, etc.</li>
+<li><strong>Purpose:</strong> Centralizes the storage and management of all collected data, making it easy to search, reference and use in reporting. Loot is typically associated with a specific host and service within a workspace.</li>
+</ul>
+<h2 id="8-contexts"><a class="header" href="#8-contexts">8. Contexts</a></h2>
+<ul>
+<li><strong>Definition:</strong> As mentioned in the <a href="./cli-overview.html#2-the-command-prompt">CLI Overview</a>, Yakut's console operates in different contexts. The available commands and the effect of commands like <code>set</code> or <code>run</code> depend on the current context (Global, Workspace, Capability, Session).</li>
+<li><strong>Switching Contexts:</strong>
+<ul>
+<li><code>workspace use &lt;name&gt;</code>: Switches to workspace context.</li>
+<li><code>capability use &lt;cap_name&gt;</code>: Switches to capability context.</li>
+<li><code>sessions interact &lt;id&gt;</code>: Switches to session context.</li>
+<li><code>back</code>: Moves out of the current context (e.g., from capability to workspace/global).</li>
+</ul>
+</li>
+</ul>
+<h2 id="9-scope-definition"><a class="header" href="#9-scope-definition">9. Scope Definition</a></h2>
+<ul>
+<li><strong>Definition:</strong> Within each workspace, users can formally define the authorized scope of the engagement. This includes IP ranges, domains, specific applications or even excluded targets.</li>
+<li><strong>Purpose:</strong> Yakut can use this scope definition to provide warnings or even (optionally) block actions that appear to target systems outside the defined scope.</li>
+<li><strong>Interaction:</strong>
+<ul>
+<li><code>scope define --include 192.168.1.0/24 --exclude 192.168.1.100 --notes "Internal pentest for HR department"</code></li>
+<li><code>scope show</code></li>
+<li>When a capability is about to run against a target, Yakut would check if the target is within scope.</li>
+</ul>
+</li>
+</ul>
+<hr />
+<p>Understanding these core concepts will significantly enhance your ability to navigate and utilize the Yakut framework. The next section, <strong><a href="./04-common-commands.html">Common Commands</a></strong>, will show you how to put these concepts into action.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../user-guide/cli-overview.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../user-guide/common-commands.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../user-guide/cli-overview.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../user-guide/common-commands.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>

@@ -1,0 +1,286 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>CLI Overview - Yakut</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="A dynamic and modular penetration testing framework and exploit development platform.">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Yakut</h1>
+
+                    <div class="right-buttons">
+                        <a href="https://github.com/ardytstrn/yakut" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/ardytstrn/docs/edit/main/docs/user-guide/cli-overview.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="cli-overview-the-yakut-console"><a class="header" href="#cli-overview-the-yakut-console">CLI Overview: The Yakut Console</a></h1>
+<p>The Yakut Console is the primary interface for interacting with the Yakut framework.</p>
+<h2 id="1-launching-the-console"><a class="header" href="#1-launching-the-console">1. Launching the Console</a></h2>
+<p>As covered in the <a href="../getting-started/first-run.html#launching-the-yakut-console">Getting Started Guide</a>, you typically launch the console using:</p>
+<pre><code class="language-bash">yakut-console
+</code></pre>
+<p>Upon launching, you'll be greeted by the Yakut banner and the command prompt.</p>
+<h2 id="2-the-command-prompt"><a class="header" href="#2-the-command-prompt">2. The Command Prompt</a></h2>
+<p>The Yakut command prompt is designed to be context-aware.</p>
+<h4 id="global-context"><a class="header" href="#global-context">Global Context</a></h4>
+<pre><code class="language-bash">yakut &gt;
+</code></pre>
+<p>Indicates you are at the top level of the framework, not actively working within a specific module or session.</p>
+<h4 id="workspace-context"><a class="header" href="#workspace-context">Workspace Context</a></h4>
+<pre><code class="language-bash">yakut [ws:my_project] &gt;
+</code></pre>
+<p>Indicates that the workspace named "my_project" is currently active. All data operations (targets, loot) will be scoped to this workspace.</p>
+<h4 id="capability-context"><a class="header" href="#capability-context">Capability Context</a></h4>
+<pre><code class="language-bash">yakut [exploit/multi/http/yakut_web_rce] &gt;
+</code></pre>
+<p>Indicates that you have loaded the <code>exploit/multi/http/yakut_web_rce</code> capability.</p>
+<h4 id="session-context"><a class="header" href="#session-context">Session Context</a></h4>
+<pre><code class="language-bash">yakut [session:1 (10.0.0.5:ruby_agent)] &gt;
+</code></pre>
+<p>Indicates you are actively interacting with session <code>1</code>, connected to <code>10.0.0.5</code> via the
+<code>ruby_agent</code>. Commands will be interpreted by the session handler.</p>
+<h2 id="3-basic-navigation--interaction"><a class="header" href="#3-basic-navigation--interaction">3. Basic Navigation &amp; Interaction</a></h2>
+<ul>
+<li><strong>Command History:</strong>
+<ul>
+<li>Use the <kbd>Up Arrow</kbd> and <kbd>Down Arrow</kbd> keys to cycle through previous commands.</li>
+<li>The <code>history</code> command displays a list of recent commands.</li>
+</ul>
+</li>
+<li><strong>Tab Completion:</strong>
+<ul>
+<li>Commands and sub-commands (e.g. <code>module &lt;TAB&gt;</code> might show <code>search</code>, <code>use</code>, <code>info</code>).</li>
+<li>Capability names (e.g. <code>cap use exploit/multi/http/&lt;TAB&gt;</code>).</li>
+<li>Option names for loaded capabilities (e.g. <code>options set RHO&lt;TAB&gt;</code> might complete to <code>RHOSTS</code>).</li>
+<li>File and directory paths.</li>
+</ul>
+</li>
+<li><strong>Getting Help:</strong>
+<ul>
+<li><code>help</code>: Displays a general list of available commands</li>
+<li><code>help &lt;command_name&gt;</code>: Provides detailed help for a specific command (e.g., <code>help cap use</code>)</li>
+<li><code>? &lt;command_name&gt;</code>: An alias for <code>help</code></li>
+<li>Within a capability context, <code>info</code> displays detailed information about the loaded capability</li>
+</ul>
+</li>
+<li><strong>Exiting Yakut:</strong>
+<ul>
+<li><code>exit</code></li>
+<li><code>quit</code></li>
+</ul>
+</li>
+</ul>
+<h2 id="4-output-structure"><a class="header" href="#4-output-structure">4. Output Structure</a></h2>
+<p>Yakut strives to provide clear, structured and useful output.</p>
+<ul>
+<li><strong>Status Messages:</strong>
+<ul>
+<li><code>[*]</code>: Informational message</li>
+<li><code>[+]</code>: Success message</li>
+<li><code>[-]</code>: Error message</li>
+<li><code>[!]</code>: Warning message</li>
+<li><code>[&gt;]</code>: Debug message (visible when debug logging is enabled)</li>
+</ul>
+</li>
+<li><strong>Tables:</strong> Many commands that lists data (e.g. <code>capability search</code>, <code>options list</code>, <code>sessions list</code> will use well-formatted tables)</li>
+</ul>
+<hr />
+<p>This overview should give you a good feel for the Yakut console. The best way to learn is
+by doing. As you proceed through the User Guide, you'll become more familiar with these
+features and the specific commands detailed in <a href="./core-concepts.html">Core Concepts</a>.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../user-guide/index.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../user-guide/core-concepts.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../user-guide/index.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../user-guide/core-concepts.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>
