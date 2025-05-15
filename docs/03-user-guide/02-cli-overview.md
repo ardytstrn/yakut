@@ -32,13 +32,13 @@ yakut [ws:my_project] >
 
 Indicates that the workspace named "my_project" is currently active. All data operations (targets, loot) will be scoped to this workspace.
 
-#### Module Context
+#### Capability Context
 
 ```bash
 yakut [exploit/multi/http/yakut_web_rce] >
 ```
 
-Indicates that you have loaded the `exploit/multi/http/yakut_web_rce` module.
+Indicates that you have loaded the `exploit/multi/http/yakut_web_rce` capability.
 
 #### Session Context
 
@@ -56,14 +56,14 @@ Indicates you are actively interacting with session `1`, connected to `10.0.0.5`
   - The `history` command displays a list of recent commands.
 - **Tab Completion:**
   - Commands and sub-commands (e.g. `module <TAB>` might show `search`, `use`, `info`).
-  - Module names (e.g. `module use exploit/multi/http/<TAB>`).
-  - Option names for loaded modules (e.g. `options set RHO<TAB>` might complete to `RHOSTS`).
+  - Capability names (e.g. `cap use exploit/multi/http/<TAB>`).
+  - Option names for loaded capabilities (e.g. `options set RHO<TAB>` might complete to `RHOSTS`).
   - File and directory paths.
 - **Getting Help:**
   - `help`: Displays a general list of available commands
-  - `help <command_name>`: Provides detailed help for a specific command (e.g., `help module use`)
+  - `help <command_name>`: Provides detailed help for a specific command (e.g., `help cap use`)
   - `? <command_name>`: An alias for `help`
-  - Within a module context, `info` displays detailed information about the loaded module
+  - Within a capability context, `info` displays detailed information about the loaded capability
 - **Exiting Yakut:**
   - `exit`
   - `quit`
@@ -78,7 +78,7 @@ Yakut strives to provide clear, structured and useful output.
   - `[-]`: Error message
   - `[!]`: Warning message
   - `[>]`: Debug message (visible when debug logging is enabled)
-- **Tables:** Many commands that lists data (e.g. `module search`, `options list`, `sessions list` will use well-formatted tables)
+- **Tables:** Many commands that lists data (e.g. `capability search`, `options list`, `sessions list` will use well-formatted tables)
 
 ---
 

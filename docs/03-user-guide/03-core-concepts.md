@@ -20,15 +20,15 @@ frequently.
   - IP addresses, hostnames, MAC addresses
   - Operating system details
   - Open ports and running services (with versions)
-  - Discovered vulnerabilities (linked from modules or manual entry)
+  - Discovered vulnerabilities (linked from capabilities or manual entry)
   - Associated loot and credentials
   - User notes and tags
-- **Purpose:** Centralizes all information about your targets, making it easy to query, correlate data and select targets for module execution.
+- **Purpose:** Centralizes all information about your targets, making it easy to query, correlate data and select targets for capability execution.
 - **Key Operations:** Adding, listing, viewing details, updating, deleting, tagging and managing services/vulnerabilities associated with targets.
 
-## 3. Modules
+## 3. Capabilities
 
-- **Definition:** Modules are the heart of Yakut's functionality. They are self-contained pieces of Ruby code designed to perform specific tasks within the penetration testing lifecycle.
+- **Definition:** Capabilities are the active, functional heart of Yakut. They are self-contained units of Ruby code designed to perform specific, well-defined tasks across the entire offensive security lifecycle.
 - **Purpose:** To provide reusable components for scanning, exploitation, post-exploitation, payload delivery, etc.
 - **Types:** `Exploit`, `Intel`, `Recon`, `Delivery`, `Post`, `Payload`, `Encoder`, `Cloud`, `AISec` (experimental)
 
@@ -37,20 +37,20 @@ frequently.
 - **Definition:** Options are configurable parameters that control the behavior of Yakut.
 - **Scope:**
   - Global
-  - Module
+  - Capability
   - Payload
 - **Types:** Options can be various types, such as strings, integers, booleans, IP addresses, file paths, enumerated lists (enums). Yakut provides validation for these.
-- **Required vs. Optional:** Some options are mandatory for a module to run, while others are optional or have default values. The `module options` command will indicate this.
+- **Required vs. Optional:** Some options are mandatory for a capability to run, while others are optional or have default values. The `capability options` command will indicate this.
 
 ## 5. Jobs
 
-- **Definition:** A job represents a module or task that is running in the background.
+- **Definition:** A job represents a capability or task that is running in the background.
 - **Purpose:** Improves interactivity and allows for multitasking within the framework.
 
 ## 6. Sessions
 
 - **Definition:** A session represents an active, interactive connection established with a compromised target system after a successful exploit and payload execution.
-- **Purpose:** Provides a means to interact with the target, gather information, escalate privileges, pivot to other systems and deploy further post-exploitation modules.
+- **Purpose:** Provides a means to interact with the target, gather information, escalate privileges, pivot to other systems and deploy further post-exploitation capabilities.
 
 ## 7. Loots
 
@@ -60,12 +60,12 @@ frequently.
 
 ## 8. Contexts
 
-- **Definition:** As mentioned in the [CLI Overview](./01-cli-overview.md#2-the-command-prompt), Yakut's console operates in different contexts. The available commands and the effect of commands like `set` or `run` depend on the current context (Global, Workspace, Module, Session).
+- **Definition:** As mentioned in the [CLI Overview](./01-cli-overview.md#2-the-command-prompt), Yakut's console operates in different contexts. The available commands and the effect of commands like `set` or `run` depend on the current context (Global, Workspace, Capability, Session).
 - **Switching Contexts:**
   - `workspace use <name>`: Switches to workspace context.
-  - `module use <module_name>`: Switches to module context.
+  - `capability use <cap_name>`: Switches to capability context.
   - `sessions interact <id>`: Switches to session context.
-  - `back`: Moves out of the current context (e.g., from module to workspace/global).
+  - `back`: Moves out of the current context (e.g., from capability to workspace/global).
 
 ## 9. Scope Definition
 
@@ -74,9 +74,8 @@ frequently.
 - **Interaction:**
   - `scope define --include 192.168.1.0/24 --exclude 192.168.1.100 --notes "Internal pentest for HR department"`
   - `scope show`
-  - When a module is about to run against a target, Yakut would check if the target is within scope.
+  - When a capability is about to run against a target, Yakut would check if the target is within scope.
 
 ---
 
-Understanding these core concepts will significantly enhance your ability to navigate and utilize the Yakut framework.
-The next section, **[Common Commands]()**, will show you how to put these concepts into action.
+Understanding these core concepts will significantly enhance your ability to navigate and utilize the Yakut framework. The next section, **[Common Commands](./04-common-commands.md)**, will show you how to put these concepts into action.

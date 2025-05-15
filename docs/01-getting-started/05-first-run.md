@@ -30,7 +30,7 @@ Yakut [ Version 0.1.0-dev (Pre-Alpha) | Ruby 3.4 ]
   | Explore 'docs quickstart' for a rapid introduction.       |
   +-----------------------------------------------------------+
 
-  Workspace: [default] | Modules: [0 Exploit, 0 Aux, 0 Post, ...]
+  Workspace: [default] | Capabilities: [0 Exploit, 0 Aux, 0 Intel, ...]
 
 yakut [ws:default] >
 ```
