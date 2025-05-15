@@ -132,8 +132,7 @@ yakut [ws:ACME_Corp_Internal] > target update DC01 --tags "DomainController,Crit
 
 ### `target delete <id_or_ip_or_hostname>`
 
-```
-console
+```console
 yakut [ws:ACME_Corp_Internal] > target delete 10.10.20.100
 [+] Target 10.10.20.100 removed.
 ```
@@ -245,7 +244,7 @@ yakut [exploit/windows/smb/eternalblue_ms17010] > set PAYLOAD windows/x64/yakut_
 PAYLOAD => windows/x64/yakut_agent/reverse_https
 ```
 
-### `payload options` or `poptions` (within module context, after a payload is set)
+### `payload options` or `poptions` (within module context, after a payload is set)
 
 ```console
 yakut [exploit/windows/smb/eternalblue_ms17010] > payload options
@@ -343,6 +342,29 @@ yakut [session:1 (10.10.10.150:yakut_agent)] >
 yakut > sessions kill 2
 [*] Killing session 2...
 [+] Session 2 closed.
+```
+
+---
+
+## 5. Loot Management Commands
+
+### `loot list [--type <type>] [--service <svc>] [--keyword <text>]` or `loot`
+
+```console
+yakut [ws:ACME_Corp_Internal] > loot list --type creds --service ssh
+[*] Loot matching criteria:
+  ID  Workspace            Host        Service  User  Secret/Data  Timestamp           Notes
+  --  ---------            ----        -------  ----  -----------  ---------           -----
+  5   ACME_Corp_Internal   10.10.20.5  ssh      root  toor123!     2025-05-15 01:20:00  SSH creds from memory dump
+```
+
+### `loot add <type> --host <host_or_id> [--service <service>] [--user <user>] [--secret "<data>"] [--file <local_file_path>] [--notes "<text>"]`
+
+```console
+yakut [ws:ACME_Corp_Internal] > loot add creds --host DC01 --service LDAP --user "ACME\administrator" --secret "P@$$wOrd123" --notes "Found in plaintext config file"
+[+] Loot item added (ID: 6).
+yakut [ws:ACME_Corp_Internal] > loot add file --host "WebApp01" --service http --file "/tmp/webapp_config.xml" --notes "Sensitive webapp config"
+[+] Loot item (file) added (ID: 7). File stored: /path/to/workspace/loot/webapp_config_xxxx.xml
 ```
 
 ---

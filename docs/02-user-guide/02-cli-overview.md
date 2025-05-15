@@ -32,7 +32,7 @@ yakut [ws:my_project] >
 
 Indicates that the workspace named "my_project" is currently active. All data operations (targets, loot) will be scoped to this workspace.
 
-#### Module Context
+#### Module Context
 
 ```bash
 yakut [exploit/multi/http/yakut_web_rce] >
@@ -40,7 +40,7 @@ yakut [exploit/multi/http/yakut_web_rce] >
 
 Indicates that you have loaded the `exploit/multi/http/yakut_web_rce` module.
 
-#### Session Context
+#### Session Context
 
 ```bash
 yakut [session:1 (10.0.0.5:ruby_agent)] >
