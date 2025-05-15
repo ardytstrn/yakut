@@ -15,6 +15,7 @@
   - [Payload Management](./user-guide/payload-management.md)
   - [Session Handling](./user-guide/session-handling.md)
   - [Data Management & Reporting](./user-guide/data-management-reporting.md)
+  - [Scripting & Automation](./user-guide/scripting-automation.md)
 - [Developer Guide](./developer-guide/README.md)
   - [Architectural Overview](./developer-guide/architectural-overview.md)
   - [Capability Development](./developer-guide/capability-development/README.md)
