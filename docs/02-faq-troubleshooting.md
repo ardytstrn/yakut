@@ -10,8 +10,6 @@ Yakut is an open-source, Ruby-powered penetration testing framework designed for
 exploit development, vulnerability assessment and advanced security research. For a
 detailed preview, please see our [Introduction](./README.md#11-what-is-yakut).
 
----
-
 #### 1.2. Why was Yakut created? What makes it different?
 
 Yakut was created to provide a modern, flexible and Ruby-idiomatic alternative
