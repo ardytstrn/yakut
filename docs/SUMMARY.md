@@ -1,0 +1,16 @@
+# mdBook summary
+
+- [Introduction](README.md)
+- [FAQ & Troubleshooting](./faq-troubleshooting.md)
+- [Getting Started](./getting-started/README.md)
+  - [Prerequisites](./getting-started/prerequisites.md)
+  - [Installation](./getting-started/installation.md)
+  - [Initial Configuration](./getting-started/initial-configuration.md)
+  - [First Run](./getting-started/first-run.md)
+- [User Guide](./user-guide/README.md)
+  - [CLI Overview](./user-guide/cli-overview.md)
+  - [Core Concepts](./user-guide/core-concepts.md)
+  - [Common Commands](./user-guide/common-commands.md)
+  - [Working with Capabilities](./user-guide/working-with-capabilities.md)
+- [Developer Guide](./developer-guide/README.md)
+  - [Architectural Overview](./developer-guide/architectural-overview.md)

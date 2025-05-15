@@ -4,7 +4,7 @@ The Yakut Console is the primary interface for interacting with the Yakut framew
 
 ## 1. Launching the Console
 
-As covered in the [Getting Started Guide](../01-getting-started/05-first-run.md#1-launching-the-yakut-console), you typically launch the console using:
+As covered in the [Getting Started Guide](../getting-started/first-run.md#launching-the-yakut-console), you typically launch the console using:
 
 ```bash
 yakut-console
@@ -84,4 +84,4 @@ Yakut strives to provide clear, structured and useful output.
 
 This overview should give you a good feel for the Yakut console. The best way to learn is
 by doing. As you proceed through the User Guide, you'll become more familiar with these
-features and the specific commands detailed in [Core Concepts](./03-core-concepts.md).
+features and the specific commands detailed in [Core Concepts](./core-concepts.md).

@@ -60,7 +60,7 @@ frequently.
 
 ## 8. Contexts
 
-- **Definition:** As mentioned in the [CLI Overview](./01-cli-overview.md#2-the-command-prompt), Yakut's console operates in different contexts. The available commands and the effect of commands like `set` or `run` depend on the current context (Global, Workspace, Capability, Session).
+- **Definition:** As mentioned in the [CLI Overview](./cli-overview.md#2-the-command-prompt), Yakut's console operates in different contexts. The available commands and the effect of commands like `set` or `run` depend on the current context (Global, Workspace, Capability, Session).
 - **Switching Contexts:**
   - `workspace use <name>`: Switches to workspace context.
   - `capability use <cap_name>`: Switches to capability context.

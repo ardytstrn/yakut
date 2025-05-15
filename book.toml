@@ -1,0 +1,21 @@
+[book]
+title = "Yakut"
+author = "Gulce"
+description = "A dynamic and modular penetration testing framework and exploit development platform."
+src = "docs"
+language = "en"
+theme = "rust"
+
+[rust]
+edition = "2018"
+
+[build]
+build-dir = "book"
+
+[output.html]
+git-repository-url="https://github.com/ardytstrn/yakut"
+site-url="https://ardytstrn.github.io/yakut"
+edit-url-template = "https://github.com/ardytstrn/docs/edit/main/{path}"
+
+[output.html.print]
+enable = false

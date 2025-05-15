@@ -1,7 +1,7 @@
 # Running Yakut for the First Time
 
-Once you have completed the [Installation](./03-installation.md) and
-[Initial Configuration](./04-initial-configuration.md), you are ready to launch the
+Once you have completed the [Installation](./installation.md) and
+[Initial Configuration](./initial-configuration.md), you are ready to launch the
 Yakut framework console for the first time.
 
 ## 1. Launching the Yakut Console

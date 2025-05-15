@@ -2,7 +2,7 @@
 
 This guide details how to install Yakut form its source code repository.
 
-**Ensure you have met all [Prerequisites](./02-prerequisites.md) before proceeding.**
+**Ensure you have met all [Prerequisites](./prerequisites.md) before proceeding.**
 
 ## Steps
 

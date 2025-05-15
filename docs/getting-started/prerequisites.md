@@ -34,4 +34,4 @@ installation. Therefore, you need a proper build environment.
 
 ---
 
-Once you have confirmed these prerequisites, you can proceed to **[Installation](./03-installation.md)**.
+Once you have confirmed these prerequisites, you can proceed to **[Installation](./installation.md)**.
