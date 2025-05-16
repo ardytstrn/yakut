@@ -3,6 +3,12 @@
 Developing user-friendly capabilities in Yakut hinges on a robust system for defining
 configurable options.
 
+- [Capability Options](#capability-options)
+  - [1. Defining Options](#1-defining-options)
+  - [2. Option Definition Attributes](#2-option-definition-attributes)
+  - [3. Underlying Option Types](#3-underlying-option-types)
+  - [4. Option Validation Flow](#4-option-validation-flow)
+
 ## 1. Defining Options
 
 Options are defined within the `initialize` method of your capability class. Instead

@@ -21,3 +21,4 @@
   - [Capability Development](./developer-guide/capability-development/README.md)
     - [Capability Anatomy & Structure](./developer-guide/capability-development/capability-anatomy-structure.md)
     - [Capability Options](./developer-guide/capability-development/capability-options.md)
+    - [Yakut Standard Library](./developer-guide/capability-development/ysl.md)
