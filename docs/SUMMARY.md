@@ -19,3 +19,4 @@
 - [Developer Guide](./developer-guide/README.md)
   - [Architectural Overview](./developer-guide/architectural-overview.md)
   - [Capability Development](./developer-guide/capability-development/README.md)
+    - [Capability Anatomy & Structure](./developer-guide/capability-anatomy-structure.md)

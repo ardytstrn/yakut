@@ -405,9 +405,3 @@ yakut [ws:ACME_Corp_Internal] > loot add creds --host DC01 --service LDAP --user
 yakut [ws:ACME_Corp_Internal] > loot add file --host "WebApp01" --service http --file "/tmp/webapp_config.xml" --notes "Sensitive webapp config"
 [+] Loot item (file) added (ID: 7). File stored: /path/to/workspace/loot/webapp_config_xxxx.xml
 ```
-
----
-
-This detailed command reference should give users a solid understanding of how to operate Yakut. As the framework
-develops, these commands and their options will be refined and new commands will be added to support Yakut's growing
-capabilities.

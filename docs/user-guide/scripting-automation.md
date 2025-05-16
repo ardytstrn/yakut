@@ -7,6 +7,7 @@
       - [Usage](#usage)
       - [Example `scan_and_exploit.yrc`](#example-scan_and_exploityrc)
   - [3. Embedded Ruby Scripting (`ruby_eval` and `irb`)](#3-embedded-ruby-scripting-ruby_eval-and-irb)
+      - [Example `ruby_eval`](#example-ruby_eval)
   - [4. `Orchestration` Capabilities (Advanced Automation \& Campaigns)](#4-orchestration-capabilities-advanced-automation--campaigns)
       - [Running Other Capabilities](#running-other-capabilities)
       - [Conditional Logic](#conditional-logic)
@@ -80,7 +81,7 @@ For more dynamic automation and direct interaction with Yakut's internals from t
 console, you can use `ruby_eval` command or drop into an IRB session within Yakut's
 context.
 
-#### Example `ruby_eval`
+#### Example `ruby_eval`
 
 ```ruby
 yakut [ws:ACME_Corp_Q3_Audit] > ruby_eval do |yk|
