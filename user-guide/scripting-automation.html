@@ -169,7 +169,11 @@
 <li><a href="#example-scan_and_exploityrc">Example <code>scan_and_exploit.yrc</code></a></li>
 </ul>
 </li>
-<li><a href="#3-embedded-ruby-scripting-ruby_eval-and-irb">3. Embedded Ruby Scripting (<code>ruby_eval</code> and <code>irb</code>)</a></li>
+<li><a href="#3-embedded-ruby-scripting-ruby_eval-and-irb">3. Embedded Ruby Scripting (<code>ruby_eval</code> and <code>irb</code>)</a>
+<ul>
+<li><a href="#example-ruby_eval">Example <code>ruby_eval</code></a></li>
+</ul>
+</li>
 <li><a href="#4-orchestration-capabilities-advanced-automation--campaigns">4. <code>Orchestration</code> Capabilities (Advanced Automation &amp; Campaigns)</a>
 <ul>
 <li><a href="#running-other-capabilities">Running Other Capabilities</a></li>
@@ -231,7 +235,7 @@ sessions list
 <p>For more dynamic automation and direct interaction with Yakut's internals from the
 console, you can use <code>ruby_eval</code> command or drop into an IRB session within Yakut's
 context.</p>
-<p>#### Example <code>ruby_eval</code></p>
+<h4 id="example-ruby_eval"><a class="header" href="#example-ruby_eval">Example <code>ruby_eval</code></a></h4>
 <pre><code class="language-ruby">yakut [ws:ACME_Corp_Q3_Audit] &gt; ruby_eval do |yk|
   puts "[*] Automating SMB scan for all Windows targets in workspace: #{yk.workspace.current.name}"
   windows_targets = yk.cognition.targets.where(os: /Windows/i, workspace_id: yk.workspace.current.id)
