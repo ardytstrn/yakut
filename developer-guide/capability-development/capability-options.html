@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Capability Development - Yakut</title>
+        <title>Capability Options - Yakut</title>
 
 
         <!-- Custom HTML head -->
@@ -128,7 +128,7 @@
                         <a href="https://github.com/ardytstrn/yakut" title="Git repository" aria-label="Git repository">
                             <i id="git-repository-button" class="fa fa-github"></i>
                         </a>
-                        <a href="https://github.com/ardytstrn/docs/edit/main/docs/developer-guide/capability-development/README.md" title="Suggest an edit" aria-label="Suggest an edit">
+                        <a href="https://github.com/ardytstrn/docs/edit/main/docs/developer-guide/capability-development/capability-options.md" title="Suggest an edit" aria-label="Suggest an edit">
                             <i id="git-edit-button" class="fa fa-edit"></i>
                         </a>
 
@@ -157,35 +157,130 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="capability-development"><a class="header" href="#capability-development">Capability Development</a></h1>
-<p>Welcome to the Capability Development section of the Yakut Developer Guide.
-This is where you'll learn everything you need to know to create powerful, effective
-and well-integrated Capabilities for Yakut.</p>
-<h2 id="sections"><a class="header" href="#sections">Sections</a></h2>
-<p>This guide is broken down into the following detailed sections:</p>
+                        <h1 id="capability-options"><a class="header" href="#capability-options">Capability Options</a></h1>
+<p>Developing user-friendly capabilities in Yakut hinges on a robust system for defining
+configurable options.</p>
+<h2 id="1-defining-options"><a class="header" href="#1-defining-options">1. Defining Options</a></h2>
+<p>Options are defined within the <code>initialize</code> method of your capability class. Instead
+of passing arrays to a constructor, Yakut's DSL uses a block-based syntax for each
+option.</p>
+<pre><code class="language-ruby">class YakutCapability &lt; Yakut::Capability::Exploit
+  def initialize(info = {})
+    super(...)
+
+    # === Define Basic Options ===
+    option :RHOSTS do
+      type :address_range # Using a symbolic type, maps to Yakut::Opts::AddressRange
+      description "The target address(es), range(s) or CIDR identifier(s)"
+      required true
+    end
+
+    option :RPORT do
+      type :port
+      description "The target port"
+      default 80
+    end
+
+    option :TARGET_URI do
+      type :string
+      description "The base URI of the target application"
+      default "/app/"
+      validate -&gt;(uri) { uri.start_with('/') || "must start with a slash" }
+    end
+
+    # === Define Advanced Options ===
+    advanced_option :TIMEOUT do
+      type :integer
+      description "Connection timeout in milliseconds"
+      default 5000
+      validate -&gt;(t) { t.positive? || "must be a positive integer" }
+    end
+
+    advanced_option :USE_SSL do
+      type :boolean
+      description "Negotiate SSL/TLS for the connection"
+      default { datastore['RPORT'] == 443 }
+    end
+  end
+
+  # ... rest of your capability ...
+end
+</code></pre>
 <ul>
-<li>SOON</li>
+<li><code>option :OPTION_NAME do ... end</code>: Defines a standard, commonly used option.</li>
+<li><code>advanced_option :OPTION_NAME do ... end</code>: Defines an option that is more specialized or less frequently adjusted. These will be displayed under an "Advanced" section in the <code>options</code> command output.</li>
 </ul>
-<h2 id="prerequisites"><a class="header" href="#prerequisites">Prerequisites</a></h2>
-<p>Before you start developing Capabilities, please ensure you have:</p>
+<h2 id="2-option-definition-attributes"><a class="header" href="#2-option-definition-attributes">2. Option Definition Attributes</a></h2>
+<p>Within the <code>option</code> or <code>advanced_option</code> block, you use the following keywords to define
+its characteristics:</p>
 <ul>
-<li>A strong understanding of the Ruby programming language</li>
-<li>Familiarity with the concepts outlined in the <a href="../architectural-overview.html">Architectural Overview</a>.</li>
-<li>A working Yakut development environment</li>
+<li><code>type</code> (Symbol or Class - Required)
+<ul>
+<li>Specifies the data of the option.</li>
+<li><strong>Symbolic Types:</strong> <code>:string</code>, <code>:boolean</code>, <code>:integer</code>, <code>:port</code>, <code>:address</code>, <code>:address_range</code>, <code>:path</code>, <code>:file</code>, <code>:directory</code>, <code>:enum</code>, <code>:regexp</code>. These map to underlying <code>Yakut::Opts::*</code> classes.</li>
+<li><strong>Class Types:</strong> You can also provide a specific <code>Yakut::Opts::*</code> class directly or a custom option class inheriting from <code>Yakut::Opts::Base</code>.</li>
 </ul>
-<p>We are excited to see the innovative Capabilities you will build for Yakut!</p>
+</li>
+<li><code>description</code> (String - Required)</li>
+<li><code>required</code> (Boolean - Optional, default: <code>false</code>)
+<ul>
+<li>If <code>true</code>, the user must provide a value for this option before the capability can be run. The framework will enforce this.</li>
+</ul>
+</li>
+<li><code>default</code> (Any or Proc - Optional)
+<ul>
+<li>The default value for the option if the user does not explicitly set one.</li>
+<li>The type should match the option's <code>type</code>.</li>
+<li>Can be a literal value or a <code>Proc</code> (lambda) for dynamic defaults that are evaluated when the option is accessed or the capability is loaded. This allows defaults based on other options or framework state.</li>
+</ul>
+</li>
+<li><code>choices</code>: (Array - Required for <code>type :enum</code>)
+<ul>
+<li>An array of valid string values for an enumeration option. The framework will validate user input against this list.</li>
+</ul>
+</li>
+<li><code>validate</code>: (Proc - Optional)
+<ul>
+<li>A <code>Proc</code> (lambda or block) that takes the user-provided value as an argument and performs custom validation.</li>
+<li>It should return <code>true</code> if the value is valid.</li>
+<li>If the value is valid, it should return a <code>String</code> containing the error message, which will be displayed to the user.</li>
+</ul>
+</li>
+</ul>
+<h2 id="3-underlying-option-types"><a class="header" href="#3-underlying-option-types">3. Underlying Option Types</a></h2>
+<p>While you primarily use the DSL keywords, Yakut internally maps these to specialized
+option type classes (under <code>Yakut::Opts::*</code>) for handling normalization and basic type
+validation. This is mostly an internal detail but good to be aware of if creating very
+custom option types.</p>
+<ul>
+<li><code>:string</code> -&gt; <code>Yakut::Opts::String</code></li>
+<li><code>:boolean</code> -&gt; <code>Yakut::Opts::Boolean</code></li>
+<li><code>:integer</code> -&gt; <code>Yakut::Opts::Integer</code></li>
+<li><code>:port</code> -&gt; <code>Yakut::Opts::Port</code> (validates 1-65535)</li>
+<li><code>:address</code> -&gt; <code>Yakut::Opts::Address</code> (validates single IP or hostname)</li>
+<li><code>:address_range</code> -&gt; <code>Yakut::Opts::AddressRange</code> (handles IPs, hostnames, CIDR)</li>
+<li><code>:path</code> -&gt; <code>Yakut::Opts::Path</code> (general path)</li>
+<li><code>:file</code> -&gt; <code>Yakut::Opts::File</code> (path, checks for file existence)</li>
+<li><code>:directory</code> -&gt; <code>Yakut::Opts::Directory</code> (path, checks for directory existence/writability)</li>
+<li><code>:enum</code> -&gt; <code>Yakut::Opts::Enum</code> (uses <code>choices</code> array)</li>
+<li><code>:regexp</code> -&gt; <code>Yakut::Opts::Regexp</code></li>
+</ul>
+<h2 id="4-option-validation-flow"><a class="header" href="#4-option-validation-flow">4. Option Validation Flow</a></h2>
+<ol>
+<li><strong>Type Coercion/Normalization:</strong> When a user sets an option, the corresponding <code>Yakut::Opts::*</code> class attempts to convert the input string to its native type.</li>
+<li><strong>Buit-in Type Validation:</strong> The option type performs basic validation (e.g. an integer is indeed an integer, a port is within range).</li>
+<li><strong>Custom <code>validate</code> Proc:</strong> If a <code>validate</code> proc is defined for the option, it is called with the normalized value. If it returns a string, that string is treated as a validation error.</li>
+<li><strong>Required Check:</strong> Before a capability's <code>run</code> or <code>check</code> method is invoked, the <code>Yakut::OperationsPlatform::ExecutionEngine</code> verifies that all options marked as <code>required true</code> have been set by the user.</li>
+</ol>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../../developer-guide/architectural-overview.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../../developer-guide/capability-development/capability-anatomy-structure.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
-                            <a rel="next prefetch" href="../../developer-guide/capability-development/capability-anatomy-structure.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
-                                <i class="fa fa-angle-right"></i>
-                            </a>
 
                         <div style="clear: both"></div>
                     </nav>
@@ -193,13 +288,10 @@ and well-integrated Capabilities for Yakut.</p>
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../../developer-guide/architectural-overview.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../../developer-guide/capability-development/capability-anatomy-structure.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
 
-                    <a rel="next prefetch" href="../../developer-guide/capability-development/capability-anatomy-structure.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
-                        <i class="fa fa-angle-right"></i>
-                    </a>
             </nav>
 
         </div>

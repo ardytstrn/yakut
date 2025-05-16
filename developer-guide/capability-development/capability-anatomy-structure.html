@@ -12,32 +12,32 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff">
 
-        <link rel="icon" href="../favicon.svg">
-        <link rel="shortcut icon" href="../favicon.png">
-        <link rel="stylesheet" href="../css/variables.css">
-        <link rel="stylesheet" href="../css/general.css">
-        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
 
         <!-- Fonts -->
-        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
-        <link rel="stylesheet" href="../fonts/fonts.css">
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
-        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
-        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
+        <link rel="stylesheet" id="highlight-css" href="../../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../../ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
 
 
         <!-- Provide site root and default themes to javascript -->
         <script>
-            const path_to_root = "../";
+            const path_to_root = "../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="../toc.js"></script>
+        <script src="../../toc.js"></script>
     </head>
     <body>
     <div id="body-container">
@@ -90,7 +90,7 @@
             <!-- populated by js -->
             <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
             <noscript>
-                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
+                <iframe class="sidebar-iframe-outer" src="../../toc.html"></iframe>
             </noscript>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
@@ -128,7 +128,7 @@
                         <a href="https://github.com/ardytstrn/yakut" title="Git repository" aria-label="Git repository">
                             <i id="git-repository-button" class="fa fa-github"></i>
                         </a>
-                        <a href="https://github.com/ardytstrn/docs/edit/main/docs/developer-guide/capability-anatomy-structure.md" title="Suggest an edit" aria-label="Suggest an edit">
+                        <a href="https://github.com/ardytstrn/docs/edit/main/docs/developer-guide/capability-development/capability-anatomy-structure.md" title="Suggest an edit" aria-label="Suggest an edit">
                             <i id="git-edit-button" class="fa fa-edit"></i>
                         </a>
 
@@ -160,6 +160,41 @@
                         <h1 id="capability-anatomy--structure"><a class="header" href="#capability-anatomy--structure">Capability Anatomy &amp; Structure</a></h1>
 <p>Understanding the fundamental structure of Yakut Capability is the first step towards
 developing your own.</p>
+<ul>
+<li><a href="#capability-anatomy--structure">Capability Anatomy &amp; Structure</a>
+<ul>
+<li><a href="#1-core-philosophy-convention-over-configuration">1. Core Philosophy: Convention over Configuration</a></li>
+<li><a href="#2-base-capability-classes">2. Base Capability Classes</a>
+<ul>
+<li><a href="#21-yakutcapabilitybase-the-most-fundamental-base-class">2.1. <code>Yakut::Capability::Base</code>: The Most Fundamental Base Class</a></li>
+<li><a href="#22-yakutcapabilityexploit--yakutcapabilitybase">2.2. <code>Yakut::Capability::Exploit &lt; Yakut::Capability::Base</code></a></li>
+<li><a href="#23-yakutcapabilityauxiliarybase--yakutcapabilitybase">2.3. <code>Yakut::Capability::Auxiliary::Base &lt; Yakut::Capability::Base</code></a></li>
+<li><a href="#24-yakutcapabilitypost--yakutcapabilitybase">2.4. <code>Yakut::Capability::Post &lt; Yakut::Capability::Base</code></a></li>
+<li><a href="#25-yakutcapabilityintel--yakutcapabilitybase">2.5. <code>Yakut::Capability::Intel &lt; Yakut::Capability::Base</code></a></li>
+<li><a href="#26-yakutcapabilityrecon--yakutcapabilitybase">2.6. <code>Yakut::Capability::Recon &lt; Yakut::Capability::Base</code></a></li>
+<li><a href="#27-yakutcapabilitydelivery--yakutcapabilitybase">2.7. <code>Yakut::Capability::Delivery &lt; Yakut::Capability::Base</code></a></li>
+<li><a href="#28-yakutcapabilityc2--yakutcapabilitybase">2.8. <code>Yakut::Capability::C2 &lt; Yakut::Capability::Base</code></a></li>
+<li><a href="#29-yakutcapabilitylateralmovement--yakutcapabilitypost">2.9. <code>Yakut::Capability::LateralMovement &lt; Yakut::Capability::Post</code></a></li>
+<li><a href="#210-yakutcapabilityevasion--yakutcapabilitybase">2.10. <code>Yakut::Capability::Evasion &lt; Yakut::Capability::Base</code></a></li>
+<li><a href="#211-yakutcapabilitysustainment--yakutcapabilitypost">2.11. <code>Yakut::Capability::Sustainment &lt; Yakut::Capability::Post</code></a></li>
+<li><a href="#212-yakutcapabilitycloud--yakutcapabilitybase">2.12. <code>Yakut::Capability::Cloud &lt; Yakut::Capability::Base</code></a></li>
+<li><a href="#213-yakutcapabilityorchestration--yakutcapabilitybase">2.13. <code>Yakut::Capability::Orchestration &lt; Yakut::Capability::Base</code></a></li>
+</ul>
+</li>
+<li><a href="#3-standard-file-structure--naming">3. Standard File Structure &amp; Naming</a></li>
+<li><a href="#4-essential-methods-in-a-capability">4. Essential Methods in a Capability</a>
+<ul>
+<li><a href="#41-initializeinfo---required">4.1. <code>initialize(info = {})</code> (Required)</a></li>
+<li><a href="#42-run-required-for-most-types">4.2. <code>run()</code> (Required for most types)</a></li>
+<li><a href="#43-check-optional-but-highly-recommended-for-exploits-and-some-auxiliaryrecon">4.3. <code>check()</code> (Optional, but highly recommended for Exploits and some Auxiliary/Recon)</a></li>
+<li><a href="#44-cleanup-optional-but-important-for-capabilities-that-make-changes">4.4. <code>cleanup()</code> (Optional, but important for Capabilities that make changes)</a></li>
+</ul>
+</li>
+<li><a href="#5-the-datastore">5. The <code>datastore</code></a></li>
+<li><a href="#6-yakut-standard-library-ysl-and-core-api-access">6. Yakut Standard Library (YSL) and Core API Access</a></li>
+</ul>
+</li>
+</ul>
 <h2 id="1-core-philosophy-convention-over-configuration"><a class="header" href="#1-core-philosophy-convention-over-configuration">1. Core Philosophy: Convention over Configuration</a></h2>
 <p>Yakut embraces "convention over configuration" philosophy for capability development.
 This means that by following certain naming conventions and structural patterns, much
@@ -242,7 +277,7 @@ your capability using the <code>super(...)</code> pattern and register its confi
 <p>This is the main method where your Capability's primary logic resides.
 When a user executes <code>run</code> (or <code>exploit</code>) in the Yakut console for your
 loaded capability, this method is called.</p>
-<h3 id="43-check-optional-but-highly-recommended-for-exploits-and-some-auxiliaryrecon"><a class="header" href="#43-check-optional-but-highly-recommended-for-exploits-and-some-auxiliaryrecon">4.3. <code>check()</code> ((Optional, but highly recommended for Exploits and some Auxiliary/Recon)</a></h3>
+<h3 id="43-check-optional-but-highly-recommended-for-exploits-and-some-auxiliaryrecon"><a class="header" href="#43-check-optional-but-highly-recommended-for-exploits-and-some-auxiliaryrecon">4.3. <code>check()</code> (Optional, but highly recommended for Exploits and some Auxiliary/Recon)</a></h3>
 <p>This method is designed to determine if a target is likely vulnerable to an exploit or
 if the conditions for an auxiliary/recon Capability are met,
 <em>without actually performing the full/destructive action</em>.</p>
@@ -285,10 +320,13 @@ are reflected in the <code>datastore</code>.</p>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../developer-guide/capability-development/index.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../../developer-guide/capability-development/index.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
+                            <a rel="next prefetch" href="../../developer-guide/capability-development/capability-options.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
 
                         <div style="clear: both"></div>
                     </nav>
@@ -296,10 +334,13 @@ are reflected in the <code>datastore</code>.</p>
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../developer-guide/capability-development/index.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../../developer-guide/capability-development/index.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
 
+                    <a rel="next prefetch" href="../../developer-guide/capability-development/capability-options.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
             </nav>
 
         </div>
@@ -312,13 +353,13 @@ are reflected in the <code>datastore</code>.</p>
         </script>
 
 
-        <script src="../elasticlunr.min.js"></script>
-        <script src="../mark.min.js"></script>
-        <script src="../searcher.js"></script>
+        <script src="../../elasticlunr.min.js"></script>
+        <script src="../../mark.min.js"></script>
+        <script src="../../searcher.js"></script>
 
-        <script src="../clipboard.min.js"></script>
-        <script src="../highlight.js"></script>
-        <script src="../book.js"></script>
+        <script src="../../clipboard.min.js"></script>
+        <script src="../../highlight.js"></script>
+        <script src="../../book.js"></script>
 
         <!-- Custom JS scripts -->
 
