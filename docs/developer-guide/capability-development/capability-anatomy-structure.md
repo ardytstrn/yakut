@@ -3,6 +3,31 @@
 Understanding the fundamental structure of Yakut Capability is the first step towards
 developing your own.
 
+- [Capability Anatomy \& Structure](#capability-anatomy--structure)
+  - [1. Core Philosophy: Convention over Configuration](#1-core-philosophy-convention-over-configuration)
+  - [2. Base Capability Classes](#2-base-capability-classes)
+    - [2.1. `Yakut::Capability::Base`: The Most Fundamental Base Class](#21-yakutcapabilitybase-the-most-fundamental-base-class)
+    - [2.2. `Yakut::Capability::Exploit < Yakut::Capability::Base`](#22-yakutcapabilityexploit--yakutcapabilitybase)
+    - [2.3. `Yakut::Capability::Auxiliary::Base < Yakut::Capability::Base`](#23-yakutcapabilityauxiliarybase--yakutcapabilitybase)
+    - [2.4. `Yakut::Capability::Post < Yakut::Capability::Base`](#24-yakutcapabilitypost--yakutcapabilitybase)
+    - [2.5. `Yakut::Capability::Intel < Yakut::Capability::Base`](#25-yakutcapabilityintel--yakutcapabilitybase)
+    - [2.6. `Yakut::Capability::Recon < Yakut::Capability::Base`](#26-yakutcapabilityrecon--yakutcapabilitybase)
+    - [2.7. `Yakut::Capability::Delivery < Yakut::Capability::Base`](#27-yakutcapabilitydelivery--yakutcapabilitybase)
+    - [2.8. `Yakut::Capability::C2 < Yakut::Capability::Base`](#28-yakutcapabilityc2--yakutcapabilitybase)
+    - [2.9. `Yakut::Capability::LateralMovement < Yakut::Capability::Post`](#29-yakutcapabilitylateralmovement--yakutcapabilitypost)
+    - [2.10. `Yakut::Capability::Evasion < Yakut::Capability::Base`](#210-yakutcapabilityevasion--yakutcapabilitybase)
+    - [2.11. `Yakut::Capability::Sustainment < Yakut::Capability::Post`](#211-yakutcapabilitysustainment--yakutcapabilitypost)
+    - [2.12. `Yakut::Capability::Cloud < Yakut::Capability::Base`](#212-yakutcapabilitycloud--yakutcapabilitybase)
+    - [2.13. `Yakut::Capability::Orchestration < Yakut::Capability::Base`](#213-yakutcapabilityorchestration--yakutcapabilitybase)
+  - [3. Standard File Structure \& Naming](#3-standard-file-structure--naming)
+  - [4. Essential Methods in a Capability](#4-essential-methods-in-a-capability)
+    - [4.1. `initialize(info = {})` (Required)](#41-initializeinfo---required)
+    - [4.2. `run()` (Required for most types)](#42-run-required-for-most-types)
+    - [4.3. `check()` (Optional, but highly recommended for Exploits and some Auxiliary/Recon)](#43-check-optional-but-highly-recommended-for-exploits-and-some-auxiliaryrecon)
+    - [4.4. `cleanup()` (Optional, but important for Capabilities that make changes)](#44-cleanup-optional-but-important-for-capabilities-that-make-changes)
+  - [5. The `datastore`](#5-the-datastore)
+  - [6. Yakut Standard Library (YSL) and Core API Access](#6-yakut-standard-library-ysl-and-core-api-access)
+
 ## 1. Core Philosophy: Convention over Configuration
 
 Yakut embraces "convention over configuration" philosophy for capability development.
@@ -118,7 +143,7 @@ This is the main method where your Capability's primary logic resides.
 When a user executes `run` (or `exploit`) in the Yakut console for your
 loaded capability, this method is called.
 
-### 4.3. `check()` ((Optional, but highly recommended for Exploits and some Auxiliary/Recon)
+### 4.3. `check()` (Optional, but highly recommended for Exploits and some Auxiliary/Recon)
 
 This method is designed to determine if a target is likely vulnerable to an exploit or
 if the conditions for an auxiliary/recon Capability are met,
