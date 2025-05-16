@@ -50,4 +50,4 @@ to advanced development:
 ### 1.6. Getting Involved
 
 Yakut is an open-source project and we believe in the power of community. If you're
-interested in contributing, please see our **Contributing Guide (soon)**.
+interested in contributing, please see our [**Contributing Guide**](../CONTRIBUTING.md).

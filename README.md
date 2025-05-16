@@ -11,6 +11,18 @@
   </p>
 </div>
 
+## ⚠️ Disclaimer ⚠️
+
+Yakut is a penetration testing and offensive security framework intended for
+**authorized and ethical use only**. Users are solely responsible for their
+actions and must ensure they have explicit, written permission from system
+owners before using Yakut or any of its capabilities on any system or
+network.
+
+The developers of Yakut assume no liability and are not responsible for any
+misuse or damage caused by this framework. Unauthorized usage of Yakut
+against systems you do not have permission to test is illegal and unethical.
+
 ## About the Project
 
 Yakut is an open-source penetration testing and offensive security framework currently
